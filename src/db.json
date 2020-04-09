@@ -3,17 +3,23 @@
     {
       "id": 1,
       "name": "Samsung Galaxy A30s",
-      "os": "Android"
+      "picture": "https://static.eldorado.ru/photos/71/715/248/75/new_71524875_l_1568650631.jpeg/resize/200x200/",
+      "os": "Android",
+      "coreCount": 8
     },
     {
       "id": 2,
       "name": "Samsung Galaxy A20",
-      "os": "Android"
+      "picture": "https://static.eldorado.ru/photos/71/715/120/41/new_71512041_l_1554385995.jpeg/resize/200x200/",
+      "os": "Android",
+      "coreCount": 8
     },
     {
       "id": 3,
       "name": "Honor 8A Prime",
-      "os": "Android"
+      "picture": "https://static.eldorado.ru/photos/71/715/382/49/new_71538249_l_1585923149.jpeg/resize/200x200/",
+      "os": "Android",
+      "coreCount": 8
     }
   ]
 }

@@ -1,29 +1,24 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import VueStoreService from '../services/vue-store-service';
+import { GET_PRODUCTS } from './actions';
+import { GET_PRODUCTS_REQUEST, GET_PRODUCTS_SUCCESS, GET_PRODUCTS_FAILURE } from './mutations';
 
 Vue.use(Vuex);
-const vueStoreService = new VueStoreService();
 
 const store = new Vuex.Store({
   state: {
-    products: []
+    products: [],
+    loading: false,
+    error: null
   },
   mutations: {
-    SET_PRODUCTS(state, products) {
-      state.products = products;
-    }
+    GET_PRODUCTS_REQUEST,
+    GET_PRODUCTS_SUCCESS,
+    GET_PRODUCTS_FAILURE
   },
   actions: {
-    GET_PRODUCTS({ commit }) {
-      vueStoreService
-        .getProducts()
-        .then(products => {
-          commit('SET_PRODUCTS', products);
-        })
-        .catch(err => console.error(err));
-    }
+    GET_PRODUCTS
   },
   getters: {
     products(state) {

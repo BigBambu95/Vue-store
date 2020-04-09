@@ -1,10 +1,7 @@
 <template>
   <div>
-    <h1>Hello World</h1>
-    <button @click="fetchProducts">Загрузить</button>
-    <div v-for="product in this.$store.state.products" :key="product.id">
-      {{ product.name }}
-    </div>
+    <router-link to="/catalog">Каталог</router-link>
+    <router-view></router-view>
   </div>
 </template>
 
