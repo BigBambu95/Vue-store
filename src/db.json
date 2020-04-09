@@ -1,0 +1,19 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Samsung Galaxy A30s",
+      "os": "Android"
+    },
+    {
+      "id": 2,
+      "name": "Samsung Galaxy A20",
+      "os": "Android"
+    },
+    {
+      "id": 3,
+      "name": "Honor 8A Prime",
+      "os": "Android"
+    }
+  ]
+}
