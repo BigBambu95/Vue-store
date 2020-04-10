@@ -13,3 +13,7 @@ export const GET_PRODUCTS = ({ commit }) => {
       commit('GET_PRODUCTS_FAILURE', err);
     });
 }
+
+export const ADD_TO_CART = ({ commit, state }, product) => {
+  commit('ADD_TO_CART_REQUEST', product);
+}

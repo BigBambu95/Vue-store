@@ -9,7 +9,7 @@ export default class {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(db.products);
-      }, 1500);
+      }, 1000);
     });
   }
 }
