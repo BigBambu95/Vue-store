@@ -27,7 +27,6 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1em;
   border-bottom: 1px solid #ccc;
   background: #fff;
 }
@@ -48,10 +47,14 @@ export default {
 }
 
 .nav-bar {
-  flex-basis: 200px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
+.nav-bar > * {
+  margin-left: 1.5em;
+}
+
 
 </style>

@@ -27,8 +27,8 @@ export default {
 
 :root {
   --huge: 1.5rem;
-  --large: 1.15rem;
-  --small: .875rem;
+  --large: 18px;
+  --small: 13px;
   --main-color: #6c5ce7;
   --main-color-hover: #fdcb6e;
 }
@@ -53,6 +53,7 @@ body {
 button,
 input {
   font-family: Roboto, 'sans-serif';
+  font-size: 1rem;
 }
 
 .container {

@@ -13,4 +13,6 @@ export const GET_PRODUCTS_FAILURE = (state, err) => {
 
 export const ADD_TO_CART_REQUEST = (state, product) => {
   state.products.push(product);
+  state.productCount += 1;
+  state.sum = state.products.map(product => product.price).reduce((price, sum) => sum + price);
 }
