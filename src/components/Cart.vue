@@ -98,6 +98,7 @@ export default {
 .minus {
   width: 26px;
   height: 26px;
+  padding: 0;
   border: 1px solid #ccc;
   border-radius: 50%;
   background: transparent;

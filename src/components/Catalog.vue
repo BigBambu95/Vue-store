@@ -1,100 +1,67 @@
 <template>
-  <div>
+  <div class="catalog">
     <h1>Каталог</h1>
-    <Loader v-if="this.$store.state.catalog.loading" />
-    <div v-else class="products">
-      <div    
-        v-for="product in this.$store.getters.products" 
-        :key="product.id"
-        class="product"
+    <div class="categories">
+      <router-link 
+        v-for="category in this.$store.getters.categories"
+        :key="category.id"
+        :to="{ name: 'category', params: { category: category.url, title: category.name } }"
+        class="category-link"
       >
-        <img class="product__picture" :src="product.picture" />
-        <div class="product__title">{{ product.name }}</div>
-        <div class="product__footer">
-          <div class="product__price">{{ product.price }} &#8381;</div>
-          <button class="product__add-cart btn" @click="addToCart(product)">
-            <i class="fas fa-shopping-cart"></i>
-          </button>
+        <div class="category-link__picture">
+          <img :src="category.picture" />
         </div>
-      </div>
-    </div>
+        <div class="category-link__title">{{ category.name }}</div>
+      </router-link>
+    </div> 
   </div>
 </template>
 
 <script>
-import Loader from './Loader.vue';
-
 export default {
   name: 'Catalog',
-  components: {
-    Loader
-  },
-  props: {},
-  methods: {
-    addToCart(id) {
-      this.$store.dispatch('ADD_TO_CART', id);
-    }
-  },
   mounted() {
-    this.$store.dispatch('GET_PRODUCTS');
+    this.$store.dispatch('GET_CATEGORIES');
   }
 }
 </script>
 
 <style scoped>
-.products {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  padding: 1em;
-  background: #fff;
-}
+  .categories {
+    display: flex;
+  }
 
-.product {
-  display: inline-flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  padding: 1em;
-  box-shadow: 0 0 0 1px #ededed;
-  cursor: pointer;
-  transition: .2s all;
-}
+  .category-link {
+    display: flex;
+    flex-flow: column wrap;
+    margin-left: 1.5em;
+    margin-bottom: 1.5em;
+    background: #fff;
+    color: #000;
+    font-size: var(--large);
+    text-decoration: none;
+    transition: .1s all;
+  }
 
-.product:hover {
-  box-shadow: 0 0 10px 1px rgba(0, 0, 0, .125);
-}
+  .category-link:hover {
+    box-shadow: 0 4px 10px -2px rgba(0, 0, 0, .125);
+  }
 
-.product__picture {
-  object-fit: contain;
-  height: 200px;
-}
+  .category-link:first-child {
+    margin-left: 0;
+  }
 
-.product__title {
-  width: 100%;
-  padding: 1em 0;
-  font-size: var(--large);
-  font-weight: 700;
-  text-align: center;
-}
+  .category-link__title {
+    display: flex;
+    align-items: center;
+    padding: 1.25em;
+  }
 
-.product__footer {
-  width: 75%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+  .category-link__picture {
+    display: inline-flex;
+  }
 
-.product__price {
-  font-weight: 700;
-}
-
-.product__add-cart {
-  padding: .5em 1em;
-  border-radius: .5em;
-  background: var(--main-color);
-  color: #fff;
-}
-
-.product__add-cart:hover {
-  background: var(--main-color-hover);
-}
+  .category-link__picture img {
+    width: 100%;
+  }
 </style>

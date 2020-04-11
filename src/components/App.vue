@@ -45,14 +45,14 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: Roboto, 'sans-serif';
+  font-family: 'Open Sans', sans-serif;
   line-height: 1.5;
   background: #f5f5f5;
 }
 
 button,
 input {
-  font-family: Roboto, 'sans-serif';
+  font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
 }
 

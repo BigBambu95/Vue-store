@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import Catalog from './components/Catalog.vue';
 import Product from './components/Product.vue';
 import Cart from './components/Cart.vue';
+import Category from './components/Category.vue';
 
 Vue.use(VueRouter);
 
@@ -13,7 +14,12 @@ const routes = [
     component: Catalog
   },
   {
-    path: '/catalog/:id',
+    name: 'category',
+    path: '/catalog/:category',
+    component: Category
+  },
+  {
+    path: '/catalog/:category/:id',
     component: Product
   },
   {

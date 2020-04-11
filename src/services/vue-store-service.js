@@ -5,11 +5,17 @@ export default class {
 
   }
 
-  getProducts() {
+  getItems(data) {
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(db.products);
-      }, 1000);
+      resolve(data);
     });
+  }
+
+  getCategories() {
+    return this.getItems(db.categories);
+  }
+
+  getCategory(category) {
+    return this.getItems(db.products[category]);
   }
 }

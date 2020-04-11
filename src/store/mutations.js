@@ -11,6 +11,19 @@ export const GET_PRODUCTS_FAILURE = (state, err) => {
   state.error = err;
 }
 
+export const GET_CATEGORIES_REQUEST = (state) => {
+  state.loading = true;
+}
+
+export const GET_CATEGORIES_SUCCESS = (state, categories) => {
+  state.categories = categories;
+  state.loading = false;
+}
+
+export const GET_CATEGORIES_FAILURE = (state, err) => {
+  state.error = err;
+}
+
 export const ADD_TO_CART_REQUEST = (state, product) => {
   state.products.push(product);
   state.productCount += 1;
