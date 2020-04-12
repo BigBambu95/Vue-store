@@ -25,7 +25,16 @@ export const GET_CATEGORIES_FAILURE = (state, err) => {
 }
 
 export const ADD_TO_CART_REQUEST = (state, product) => {
+  product.count = 1;
+  product.sum = product.price;
   state.products.push(product);
   state.productCount += 1;
   state.sum = state.products.map(product => product.price).reduce((price, sum) => sum + price);
+}
+
+export const PRODUCT_COUNT_CHANGE_REQUEST = (state, payload) => {
+  const product = state.products.find(item => item.id === payload.id);
+  product.count += payload.value;
+  product.sum = product.price * product.count;
+  state.sum = state.products.map(product => product.sum).reduce((price, total) => total + price);
 }

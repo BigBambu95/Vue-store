@@ -10,7 +10,8 @@ const store = new Vuex.Store({
   modules: {
     catalog,
     cart
-  }
+  },
+  strict: process.env.NODE_ENV !== 'production'
 });
 
 export default store;

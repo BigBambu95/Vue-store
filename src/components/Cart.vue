@@ -14,15 +14,15 @@
         </div>
         <div class="product__title">{{ product.name }}</div>
         <div class="product__count">
-          <button class="btn minus">
+          <button class="btn minus" @click="minus(product.id)" :disabled="product.count === 1">
             <i>&minus;</i>
           </button>
-          <output class="output">0</output>
-          <button class="btn plus">
+          <output class="output">{{ product.count }}</output>
+          <button class="btn plus" @click="plus(product.id)" :disabled="product.count === 9">
             <i>&plus;</i>
           </button>
         </div>
-        <div class="product__price">{{ product.price }} &#8381;</div>
+        <div class="product__price">{{ product.sum }} &#8381;</div>
       </div>
       <footer class="cart__footer">
         Итого {{ this.$store.state.cart.productCount }} товар <span class="total">{{ this.$store.state.cart.sum }} &#8381;</span>
@@ -37,6 +37,14 @@ export default {
   methods: {
     back() {
       this.$router.go(-1);
+    },
+    plus(id) {
+      this.$store.dispatch('PRODUCT_COUNT_CHANGE', { id, value: 1 });
+      this.$forceUpdate();
+    },
+    minus(id) {
+      this.$store.dispatch('PRODUCT_COUNT_CHANGE', { id, value: -1 });
+      this.$forceUpdate();
     }
   }
 }

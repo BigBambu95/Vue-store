@@ -29,3 +29,8 @@ export const GET_CATEGORIES = ({ commit }) => {
 export const ADD_TO_CART = ({ commit, state }, product) => {
   commit('ADD_TO_CART_REQUEST', product);
 }
+
+export const PRODUCT_COUNT_CHANGE = ({ commit }, payload) => {
+  commit('PRODUCT_COUNT_CHANGE_REQUEST', payload);
+}
+

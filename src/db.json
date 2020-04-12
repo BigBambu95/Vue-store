@@ -16,7 +16,7 @@
   "products": {
     "laptops": [
       {
-        "id": 1,
+        "id": 101,
         "name": "Apple MacBook Pro 13",
         "picture": "https://cdn.svyaznoy.ru/upload/iblock/1724bc14805fbed59b4d4f87bb1aa599/11.jpg/resize/307x224/",
         "os": "macOS",
@@ -24,7 +24,7 @@
         "price": 155990
       },
       {
-        "id": 2,
+        "id": 102,
         "name": "Apple MacBook Air 13",
         "picture": "https://cdn.svyaznoy.ru/upload/iblock/56c/macbook_air_pf-screen.png/resize/307x224/",
         "os": "macOS",
@@ -32,17 +32,25 @@
         "price": 67990
       },
       {
-        "id": 3,
+        "id": 103,
         "name": "Acer Nitro 5 AN515-54-71SD",
         "picture": "https://cdn.svyaznoy.ru/upload/iblock/622/361535507b1de4dc330eab7dbf6e8944.jpeg/resize/307x224/",
         "os": "Windows",
         "coreCount": 6,
         "price": 94990
+      },
+      {
+        "id": 104,
+        "name": "ASUS X540NA-GQ005",
+        "picture": "https://cdn.svyaznoy.ru/upload/iblock/bc2/dos.jpg/resize/307x224/",
+        "os": "Windows",
+        "coreCount": 2,
+        "price": 16990 
       }
     ],
     "smartphones": [
       {
-        "id": 1,
+        "id": 201,
         "name": "Samsung Galaxy A30s",
         "picture": "https://static.eldorado.ru/photos/71/715/248/75/new_71524875_l_1568650631.jpeg/resize/200x200/",
         "os": "Android",
@@ -50,7 +58,7 @@
         "price": 13990
       },
       {
-        "id": 2,
+        "id": 202,
         "name": "Samsung Galaxy S20",
         "picture": "https://static.eldorado.ru/photos/71/715/120/41/new_71512041_l_1554385995.jpeg/resize/200x200/",
         "os": "Android",
@@ -58,7 +66,7 @@
         "price": 79990
       },
       {
-        "id": 3,
+        "id": 203,
         "name": "Honor 8A Prime",
         "picture": "https://static.eldorado.ru/photos/71/715/382/49/new_71538249_l_1585923149.jpeg/resize/200x200/",
         "os": "Android",
@@ -66,7 +74,7 @@
         "price": 29990
       },
       {
-        "id": 4,
+        "id": 204,
         "name": "Apple iPhone 11 Pro Max",
         "picture": "https://cdn.svyaznoy.ru/upload/iblock/e6e/iphone_11_pro_sg_2.jpg/resize/307x224/",
         "os": "IOS",
@@ -75,7 +83,7 @@
 
       },
       {
-        "id": 5,
+        "id": 205,
         "name": "Honor 9X",
         "picture": "https://cdn.svyaznoy.ru/upload/iblock/5f2/9x_blue-c3b.jpg/resize/307x224/",
         "os": "Android",

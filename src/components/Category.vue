@@ -2,19 +2,25 @@
   <div class="category">
     <h1>{{ this.$route.params.title }}</h1>
     <Loader v-if="this.$store.state.catalog.loading" />
-    <div v-else class="products">
-      <div    
-        v-for="product in this.$store.getters.products" 
-        :key="product.id"
-        class="product"
-      >
-        <img class="product__picture" :src="product.picture" />
-        <div class="product__title">{{ product.name }}</div>
-        <div class="product__footer">
-          <div class="product__price">{{ product.price }} &#8381;</div>
-          <button class="product__add-cart btn" @click="addToCart(product)">
-            <i class="fas fa-shopping-cart"></i>
-          </button>
+    <div v-else class="category__body">
+      <div class="listing-controls">
+        <span @click="sortValue = 'price'">По цене</span>
+        <button @click="sortValue = ''">Сбросить сортировку</button>
+      </div>
+      <div class="products">
+        <div    
+          v-for="product in sortedProducts" 
+          :key="product.id"
+          class="product"
+        >
+          <img class="product__picture" :src="product.picture" />
+          <div class="product__title">{{ product.name }}</div>
+          <div class="product__footer">
+            <div class="product__price">{{ product.price }} &#8381;</div>
+            <button class="product__add-cart btn" @click="addToCart(product)">
+              <i class="fas fa-shopping-cart"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -29,9 +35,23 @@ export default {
   components: {
     Loader
   },
+  data: () => ({
+    sortValue: ''
+  }),
   methods: {
     addToCart(id) {
       this.$store.dispatch('ADD_TO_CART', id);
+    }
+  },
+  computed: {
+    sortedProducts() {
+      switch(this.sortValue) {
+        case 'price': 
+          return this.$store.getters.products.slice().sort((a, b) => b.price - a.price);
+
+        default:
+          return this.$store.getters.products;
+      }
     }
   },
   mounted() {
@@ -41,18 +61,26 @@ export default {
 </script>
 
 <style scoped>
-.products {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  padding: 1em;
+.category__body {
   background: #fff;
 }
 
+.listing-controls {
+  padding: 1.5em 2em;
+}
+
+.products {
+  display: flex;
+  flex-flow: row wrap;
+}
+
 .product {
+  max-width: calc(1180px / 4);
   display: inline-flex;
   flex-flow: row wrap;
   justify-content: center;
   padding: 1em;
+  padding-bottom: 2em;
   box-shadow: 0 0 0 1px #ededed;
   cursor: pointer;
   transition: .2s all;
@@ -64,6 +92,7 @@ export default {
 
 .product__picture {
   object-fit: contain;
+  width: 100%;
   height: 200px;
 }
 
