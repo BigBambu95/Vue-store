@@ -22,10 +22,10 @@
             <i>&plus;</i>
           </button>
         </div>
-        <div class="product__price">{{ product.sum }} &#8381;</div>
+        <div class="product__price">{{ product.sum.toLocaleString('ru') }} &#8381;</div>
       </div>
       <footer class="cart__footer">
-        Итого {{ this.$store.state.cart.productCount }} товар <span class="total">{{ this.$store.state.cart.sum }} &#8381;</span>
+        Итого {{ this.$store.state.cart.productCount }} товар <span class="total">{{ this.$store.state.cart.sum.toLocaleString('ru') }} &#8381;</span>
       </footer>
     </div>
   </div>

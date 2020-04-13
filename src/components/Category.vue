@@ -1,8 +1,16 @@
 <template>
   <div class="category">
-    <h1>{{ this.$route.params.title }}</h1>
+    <h1>{{ getTitle(this.$store.getters.categories) }}</h1>
     <Loader v-if="this.$store.state.catalog.loading" />
     <div v-else class="category__body">
+      <aside class="sidebar">
+        <ExpansionPanel title="Цена руб.">
+          <div class="filter">
+            <input :placeholder="minPrice" />
+            <input :placeholder="maxPrice" />
+          </div> 
+        </ExpansionPanel>
+      </aside>
       <div class="listing-controls">
         <span @click="sortValue = 'price'">По цене</span>
         <button @click="sortValue = ''">Сбросить сортировку</button>
@@ -16,7 +24,7 @@
           <img class="product__picture" :src="product.picture" />
           <div class="product__title">{{ product.name }}</div>
           <div class="product__footer">
-            <div class="product__price">{{ product.price }} &#8381;</div>
+            <div class="product__price">{{ product.price.toLocaleString('ru') }} &#8381;</div>
             <button class="product__add-cart btn" @click="addToCart(product)">
               <i class="fas fa-shopping-cart"></i>
             </button>
@@ -29,11 +37,13 @@
 
 <script>
 import Loader from './Loader.vue';
+import ExpansionPanel from './ExpansionPanel.vue';
 
 export default {
   name: 'Catalog',
   components: {
-    Loader
+    Loader,
+    ExpansionPanel
   },
   data: () => ({
     sortValue: ''
@@ -41,6 +51,10 @@ export default {
   methods: {
     addToCart(id) {
       this.$store.dispatch('ADD_TO_CART', id);
+    },
+    getTitle(state) {
+      const item = state.find(item => this.$route.path.includes(item.url));
+      return item.name;
     }
   },
   computed: {
@@ -52,9 +66,16 @@ export default {
         default:
           return this.$store.getters.products;
       }
+    },
+    minPrice() {
+      return Math.min.apply(null, this.$store.getters.products.map(item => item.price));
+    },
+    maxPrice() {
+      return Math.max.apply(null, this.$store.getters.products.map(item => item.price));
     }
   },
   mounted() {
+    this.$store.dispatch('GET_CATEGORIES');
     this.$store.dispatch('GET_PRODUCTS', this.$route.params.category);
   }
 }
@@ -62,14 +83,37 @@ export default {
 
 <style scoped>
 .category__body {
+  display: grid;
+  grid-template-areas: 'sidebar listingControls'
+                        'sidebar products';
   background: #fff;
 }
 
+.sidebar {
+  grid-area: sidebar;
+  max-width: calc(1440px - 1180px);
+  width: 100%;
+}
+
 .listing-controls {
+  grid-area: listingControls;
   padding: 1.5em 2em;
 }
 
+.filter {
+  display: flex;
+  padding: 1em;
+  border-bottom: 1px solid #ededed;
+}
+
+.filter input {
+  width: 45%;
+  margin-left: 1em;
+}
+
 .products {
+  grid-area: products;
+  max-width: 1180px;
   display: flex;
   flex-flow: row wrap;
 }

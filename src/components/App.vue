@@ -60,7 +60,7 @@ input {
   display: inherit;
   justify-content: inherit;
   align-items: inherit;
-  max-width: 1180px;
+  max-width: 1440px;
   width: 100%;
   margin: auto;
 }
