@@ -34,3 +34,10 @@ export const PRODUCT_COUNT_CHANGE = ({ commit }, payload) => {
   commit('PRODUCT_COUNT_CHANGE_REQUEST', payload);
 }
 
+export const SET_FILTER = ({ commit }, payload) => {
+  commit('SET_FILTER_REQUEST', payload);
+}
+
+export const FILTER_PRODUCTS = ({ commit }) => {
+  commit('FILTER_PRODUCTS_REQUEST');
+}

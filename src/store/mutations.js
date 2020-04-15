@@ -38,3 +38,11 @@ export const PRODUCT_COUNT_CHANGE_REQUEST = (state, payload) => {
   product.sum = product.price * product.count;
   state.sum = state.products.map(product => product.sum).reduce((price, total) => total + price);
 }
+
+export const SET_FILTER_REQUEST = (state, payload) => {
+  state.filter[payload.key] = payload.value;
+}
+
+export const FILTER_PRODUCTS_REQUEST = (state) => {
+  state.products = state.products.filter(product => product.brand === state.filter.brand);
+}

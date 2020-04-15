@@ -58,7 +58,7 @@
         "name": "Samsung Galaxy A30s",
         "brand": "Samsung",
         "picture": "https://static.eldorado.ru/photos/71/715/248/75/new_71524875_l_1568650631.jpeg/resize/200x200/",
-        "os": "Android",
+        "os": "Google Android",
         "coreCount": 8,
         "price": 13990
       },
@@ -67,7 +67,7 @@
         "name": "Samsung Galaxy S20",
         "brand": "Samsung",
         "picture": "https://static.eldorado.ru/photos/71/715/120/41/new_71512041_l_1554385995.jpeg/resize/200x200/",
-        "os": "Android",
+        "os": "Google Android",
         "coreCount": 8,
         "price": 79990
       },
@@ -76,7 +76,7 @@
         "name": "Honor 8A Prime",
         "brand": "Honor",
         "picture": "https://static.eldorado.ru/photos/71/715/382/49/new_71538249_l_1585923149.jpeg/resize/200x200/",
-        "os": "Android",
+        "os": "Google Android",
         "coreCount": 8,
         "price": 29990
       },
@@ -85,7 +85,7 @@
         "name": "Apple iPhone 11 Pro Max",
         "brand": "Apple",
         "picture": "https://cdn.svyaznoy.ru/upload/iblock/e6e/iphone_11_pro_sg_2.jpg/resize/307x224/",
-        "os": "IOS",
+        "os": "Apple iOS",
         "coreCount": 6,
         "price": 131990
 
@@ -95,7 +95,7 @@
         "name": "Honor 9X",
         "brand": "Honor",
         "picture": "https://cdn.svyaznoy.ru/upload/iblock/5f2/9x_blue-c3b.jpg/resize/307x224/",
-        "os": "Android",
+        "os": "Google Android",
         "coreCount": 8,
         "price": 15990
       }

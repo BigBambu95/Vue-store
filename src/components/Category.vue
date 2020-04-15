@@ -12,11 +12,29 @@
         </ExpansionPanel>
         <ExpansionPanel title="Производитель">
           <div class="filter">
-            <v-chip v-for="(brand, idx) in brands" :key="idx" :label="brand" />
+            <v-chip 
+              v-for="(brand, idx) in brands" 
+              :key="idx" 
+              :label="brand" 
+              type="clickable"
+              @click="setFilter('brand', brand)" 
+            />
+          </div> 
+        </ExpansionPanel>
+        <ExpansionPanel title="Операционная система">
+          <div class="filter">
+            <v-chip 
+              v-for="(os, idx) in operatingSystems" 
+              :key="idx" 
+              :label="os" 
+              type="clickable"
+              @click="setFilter('os', os)" 
+            />
           </div> 
         </ExpansionPanel>
         <div class="filter-list__show-btn-wrapper">
-          <v-btn type="outlined">Показать</v-btn>
+          <v-btn type="outlined" @click="filterProducts">Показать</v-btn>
+          <v-btn type="outlined" @click="resetFilter">Сбросить фильтр</v-btn>
         </div>
       </aside>
       <div class="listing-controls">
@@ -77,6 +95,15 @@ export default {
     getTitle(state) {
       const item = state.find(item => this.$route.path.includes(item.url));
       return item.name;
+    },
+    setFilter(key, value) {
+      this.$store.dispatch('SET_FILTER', { key, value });
+    },
+    filterProducts() {
+      this.$store.dispatch('FILTER_PRODUCTS');
+    },
+    resetFilter() {
+      console.log("reset filter")
     }
   },
   computed: {
@@ -97,6 +124,9 @@ export default {
     },
     brands() {
       return [...new Set(this.$store.getters.products.map(product => product.brand))];
+    },
+    operatingSystems() {
+      return [...new Set(this.$store.getters.products.map(product => product.os))];
     }
   },
   mounted() {
@@ -111,6 +141,7 @@ export default {
   display: grid;
   grid-template-areas: 'sidebar listingControls'
                         'sidebar products';
+  grid-template-columns: 320px 1fr;
   background: #fff;
 }
 
