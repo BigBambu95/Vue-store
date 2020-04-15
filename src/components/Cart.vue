@@ -2,7 +2,7 @@
   <div class="cart">
     <header class="cart__header">
       <h1>Корзина</h1>
-      <button class="btn btn-back" @click="back">Вернуться к покупкам</button>
+      <v-btn @click="back" type="text">Вернуться к покупкам</v-btn>
     </header>
     <div v-if="this.$store.state.cart.products < 1" class="cart__body cart--empty">
       На данный момент ваша корзина пуста
@@ -14,13 +14,13 @@
         </div>
         <div class="product__title">{{ product.name }}</div>
         <div class="product__count">
-          <button class="btn minus" @click="minus(product.id)" :disabled="product.count === 1">
+          <v-btn class="btn minus" @click="minus(product.id)" :disabled="product.count === 1">
             <i>&minus;</i>
-          </button>
+          </v-btn>
           <output class="output">{{ product.count }}</output>
-          <button class="btn plus" @click="plus(product.id)" :disabled="product.count === 9">
+          <v-btn class="btn plus" @click="plus(product.id)" :disabled="product.count === 9">
             <i>&plus;</i>
-          </button>
+          </v-btn>
         </div>
         <div class="product__price">{{ product.sum.toLocaleString('ru') }} &#8381;</div>
       </div>
@@ -32,8 +32,13 @@
 </template>
 
 <script>
+import vBtn from './v-btn.vue';
+
 export default {
   name: 'Cart',
+  components: {
+    vBtn
+  },
   methods: {
     back() {
       this.$router.go(-1);
@@ -62,9 +67,6 @@ export default {
   align-items: center;
 }
 
-.btn-back {
-  background: transparent;
-}
 
 .cart__body {
   background: #fff;

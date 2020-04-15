@@ -65,9 +65,4 @@ input {
   margin: auto;
 }
 
-.btn {
-  border: none;
-  cursor: pointer;
-  user-select: none;
-}
 </style>

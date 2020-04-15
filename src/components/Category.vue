@@ -3,17 +3,29 @@
     <h1>{{ getTitle(this.$store.getters.categories) }}</h1>
     <Loader v-if="this.$store.state.catalog.loading" />
     <div v-else class="category__body">
-      <aside class="sidebar">
+      <aside class="sidebar filter-list">
         <ExpansionPanel title="Цена руб.">
           <div class="filter">
-            <input :placeholder="minPrice" />
-            <input :placeholder="maxPrice" />
+            <v-input type="text" :placeholder="minPrice.toString()" />
+            <v-input type="text" :placeholder="maxPrice.toString()" />
           </div> 
         </ExpansionPanel>
+        <ExpansionPanel title="Производитель">
+          <div class="filter">
+            <v-chip v-for="(brand, idx) in brands" :key="idx" :label="brand" />
+          </div> 
+        </ExpansionPanel>
+        <div class="filter-list__show-btn-wrapper">
+          <v-btn type="outlined">Показать</v-btn>
+        </div>
       </aside>
       <div class="listing-controls">
-        <span @click="sortValue = 'price'">По цене</span>
-        <button @click="sortValue = ''">Сбросить сортировку</button>
+        <v-btn @click="sortValue = 'price'" type="text">
+          <span>По цене</span>
+          <icon-base iconName="arrow" width="9" height="6">
+            <icon-arrow />  
+          </icon-base>  
+        </v-btn>
       </div>
       <div class="products">
         <div    
@@ -25,9 +37,9 @@
           <div class="product__title">{{ product.name }}</div>
           <div class="product__footer">
             <div class="product__price">{{ product.price.toLocaleString('ru') }} &#8381;</div>
-            <button class="product__add-cart btn" @click="addToCart(product)">
+            <v-btn class="product__add-cart" @click="addToCart(product)">
               <i class="fas fa-shopping-cart"></i>
-            </button>
+            </v-btn>
           </div>
         </div>
       </div>
@@ -38,12 +50,22 @@
 <script>
 import Loader from './Loader.vue';
 import ExpansionPanel from './ExpansionPanel.vue';
+import vBtn from './v-btn.vue';
+import vInput from './v-input.vue';
+import vChip from './v-chip.vue';
+import IconBase from './icons/IconBase.vue';
+import IconArrow from './icons/IconArrow.vue';
 
 export default {
   name: 'Catalog',
   components: {
     Loader,
-    ExpansionPanel
+    ExpansionPanel,
+    vBtn,
+    vInput,
+    vChip,
+    IconBase,
+    IconArrow
   },
   data: () => ({
     sortValue: ''
@@ -72,6 +94,9 @@ export default {
     },
     maxPrice() {
       return Math.max.apply(null, this.$store.getters.products.map(item => item.price));
+    },
+    brands() {
+      return [...new Set(this.$store.getters.products.map(product => product.brand))];
     }
   },
   mounted() {
@@ -91,13 +116,14 @@ export default {
 
 .sidebar {
   grid-area: sidebar;
-  max-width: calc(1440px - 1180px);
+  max-width: calc(1440px - 1120px);
   width: 100%;
 }
 
 .listing-controls {
   grid-area: listingControls;
-  padding: 1.5em 2em;
+  padding: 1.5em;
+  border-left: 1px solid #ededed;
 }
 
 .filter {
@@ -108,18 +134,23 @@ export default {
 
 .filter input {
   width: 45%;
-  margin-left: 1em;
+  margin-left: 10px;
+}
+
+.filter-list__show-btn-wrapper {
+  padding: 1em;
+  text-align: center;
 }
 
 .products {
   grid-area: products;
-  max-width: 1180px;
+  max-width: 1120px;
   display: flex;
   flex-flow: row wrap;
 }
 
 .product {
-  max-width: calc(1180px / 4);
+  max-width: calc(1120px / 4);
   display: inline-flex;
   flex-flow: row wrap;
   justify-content: center;
