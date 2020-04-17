@@ -1,5 +1,5 @@
 <template>
-  <span class="chip" :class="[type, { active: isActive }]" @click="click">{{ label }}</span>
+  <span class="chip" :class="[type, { active: isActive }]" @click="click">{{ label }} <span class="right-content">{{ rightContent }}</span></span>
 </template>
 
 <script>
@@ -10,10 +10,11 @@ export default {
   }),
   props: {
     label: {
-      type: String,
+      type: String | Number,
       required: true
     },
-    type: String
+    type: String,
+    rightContent: String | Number
   },
   methods: {
     click() {
@@ -26,6 +27,7 @@ export default {
 
 <style scoped>
 .chip {
+  display: inline-flex;
   margin-left: 10px;
   padding: .5em 1em;
   border-radius: 5px;
@@ -41,5 +43,10 @@ export default {
 .chip.active {
   background: var(--main-color);
   color: #fff;
+}
+
+.right-content {
+  margin-left: .75em;
+  color: #999;
 }
 </style>

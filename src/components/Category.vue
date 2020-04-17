@@ -5,7 +5,7 @@
     <div v-else class="category__body">
       <aside class="sidebar filter-list">
         <ExpansionPanel title="Цена руб.">
-          <div class="filter">
+          <div class="filter price">
             <v-input type="text" :placeholder="minPrice.toString()" />
             <v-input type="text" :placeholder="maxPrice.toString()" />
           </div> 
@@ -13,10 +13,11 @@
         <ExpansionPanel title="Производитель">
           <div class="filter">
             <v-chip 
-              v-for="(brand, idx) in brands" 
-              :key="idx" 
+              v-for="(count, brand) in getFilterFields('brand')" 
+              :key="brand" 
               :label="brand" 
               type="clickable"
+              :rightContent="count"
               @click="setFilter('brand', brand)" 
             />
           </div> 
@@ -24,25 +25,36 @@
         <ExpansionPanel title="Операционная система">
           <div class="filter">
             <v-chip 
-              v-for="(os, idx) in operatingSystems" 
-              :key="idx" 
+              v-for="(count, os) in getFilterFields('os')" 
+              :key="os" 
               :label="os" 
               type="clickable"
+              :rightContent="count"
               @click="setFilter('os', os)" 
             />
           </div> 
         </ExpansionPanel>
-        <div class="filter-list__show-btn-wrapper">
-          <v-btn type="outlined" @click="filterProducts">Показать</v-btn>
+        <div class="filter-list__footer">
+          <v-btn type="contained" @click="filterProducts">Показать</v-btn>
           <v-btn type="outlined" @click="resetFilter">Сбросить фильтр</v-btn>
         </div>
       </aside>
       <div class="listing-controls">
-        <v-btn @click="sortValue = 'price'" type="text">
+        <v-btn @click="setSortValue('-price', '+price')" type="text" class="sort-btn">
           <span>По цене</span>
-          <icon-base iconName="arrow" width="9" height="6">
-            <icon-arrow />  
-          </icon-base>  
+          <span v-if="sortValue.includes('price')" class="sort-btn__arrow" :class="{ down: sortValue === '+price' }">
+            <icon-base iconName="arrow" width="9" height="6">
+              <icon-arrow />  
+            </icon-base>
+          </span>
+        </v-btn>
+        <v-btn @click="setSortValue('-rating', '+rating')" type="text" class="sort-btn">
+          <span>По рейтингу</span>
+          <span v-if="sortValue.includes('rating')" class="sort-btn__arrow" :class="{ down: sortValue === '+rating' }">
+            <icon-base iconName="arrow" width="9" height="6">
+              <icon-arrow />  
+            </icon-base>
+          </span>
         </v-btn>
       </div>
       <div class="products">
@@ -96,6 +108,15 @@ export default {
       const item = state.find(item => this.$route.path.includes(item.url));
       return item.name;
     },
+    getFilterFields(value) {
+      const obj = {};
+
+      this.$store.getters.products.map(product => {
+        obj[product[value]] = obj[product[value]] ? obj[product[value]] + 1 : 1;
+      });
+
+      return obj;
+    },
     setFilter(key, value) {
       this.$store.dispatch('SET_FILTER', { key, value });
     },
@@ -104,13 +125,25 @@ export default {
     },
     resetFilter() {
       console.log("reset filter")
+    },
+    setSortValue(ascendingValue, descendingValue) {
+      this.sortValue = this.sortValue === ascendingValue ? descendingValue : ascendingValue;
     }
   },
   computed: {
     sortedProducts() {
       switch(this.sortValue) {
-        case 'price': 
+        case '-price':
+          return this.$store.getters.products.slice().sort((a, b) => a.price - b.price);
+        
+        case '+price': 
           return this.$store.getters.products.slice().sort((a, b) => b.price - a.price);
+
+        case '-rating':
+          return this.$store.getters.products.slice().sort((a, b) => a.rating - b.rating);
+
+        case '+rating':
+          return this.$store.getters.products.slice().sort((a, b) => b.rating - a.rating);
 
         default:
           return this.$store.getters.products;
@@ -121,12 +154,6 @@ export default {
     },
     maxPrice() {
       return Math.max.apply(null, this.$store.getters.products.map(item => item.price));
-    },
-    brands() {
-      return [...new Set(this.$store.getters.products.map(product => product.brand))];
-    },
-    operatingSystems() {
-      return [...new Set(this.$store.getters.products.map(product => product.os))];
     }
   },
   mounted() {
@@ -137,17 +164,22 @@ export default {
 </script>
 
 <style scoped>
+:root {
+  --filterBlockWidth: 325px;
+  --productsBlockWidth: 1115px;
+}
+
 .category__body {
   display: grid;
   grid-template-areas: 'sidebar listingControls'
                         'sidebar products';
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 325px 1fr;
   background: #fff;
 }
 
 .sidebar {
   grid-area: sidebar;
-  max-width: calc(1440px - 1120px);
+  max-width: var(--filterBlockWidth);
   width: 100%;
 }
 
@@ -159,16 +191,27 @@ export default {
 
 .filter {
   display: flex;
+  flex-flow: row wrap;
   padding: 1em;
   border-bottom: 1px solid #ededed;
 }
 
+.filter.price {
+  flex-flow: row nowrap;
+}
+
+.filter .chip {
+  margin-bottom: 15px;
+}
+
 .filter input {
-  width: 45%;
+  width: 100%;
   margin-left: 10px;
 }
 
-.filter-list__show-btn-wrapper {
+.filter-list__footer {
+  display: flex;
+  justify-content: space-between;
   padding: 1em;
   text-align: center;
 }
@@ -181,7 +224,7 @@ export default {
 }
 
 .product {
-  max-width: calc(1120px / 4);
+  max-width: calc(1115px / 4);
   display: inline-flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -230,5 +273,19 @@ export default {
 
 .product__add-cart:hover {
   background: var(--main-color-hover);
+}
+
+.sort-btn {
+  font-size: 15px;
+}
+
+.sort-btn__arrow {
+  display: flex;
+  margin-left: 10px;
+  transition: .2s all;
+}
+
+.sort-btn__arrow.down {
+  transform: rotate(180deg);
 }
 </style>

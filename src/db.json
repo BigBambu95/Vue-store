@@ -22,7 +22,8 @@
         "picture": "https://cdn.svyaznoy.ru/upload/iblock/1724bc14805fbed59b4d4f87bb1aa599/11.jpg/resize/307x224/",
         "os": "macOS",
         "coreCount": 4,
-        "price": 155990
+        "price": 155990,
+        "rating": 10
       },
       {
         "id": 102,
@@ -31,7 +32,8 @@
         "picture": "https://cdn.svyaznoy.ru/upload/iblock/56c/macbook_air_pf-screen.png/resize/307x224/",
         "os": "macOS",
         "coreCount": 4,
-        "price": 67990
+        "price": 67990,
+        "rating": 9
       },
       {
         "id": 103,
@@ -40,7 +42,8 @@
         "picture": "https://cdn.svyaznoy.ru/upload/iblock/622/361535507b1de4dc330eab7dbf6e8944.jpeg/resize/307x224/",
         "os": "Windows",
         "coreCount": 6,
-        "price": 94990
+        "price": 94990,
+        "rating": 7
       },
       {
         "id": 104,
@@ -49,7 +52,8 @@
         "picture": "https://cdn.svyaznoy.ru/upload/iblock/bc2/dos.jpg/resize/307x224/",
         "os": "Windows",
         "coreCount": 2,
-        "price": 16990 
+        "price": 16990,
+        "rating": 4
       }
     ],
     "smartphones": [
@@ -60,7 +64,8 @@
         "picture": "https://static.eldorado.ru/photos/71/715/248/75/new_71524875_l_1568650631.jpeg/resize/200x200/",
         "os": "Google Android",
         "coreCount": 8,
-        "price": 13990
+        "price": 13990,
+        "rating": 4
       },
       {
         "id": 202,
@@ -69,7 +74,8 @@
         "picture": "https://static.eldorado.ru/photos/71/715/120/41/new_71512041_l_1554385995.jpeg/resize/200x200/",
         "os": "Google Android",
         "coreCount": 8,
-        "price": 79990
+        "price": 79990,
+        "rating": 10
       },
       {
         "id": 203,
@@ -78,7 +84,8 @@
         "picture": "https://static.eldorado.ru/photos/71/715/382/49/new_71538249_l_1585923149.jpeg/resize/200x200/",
         "os": "Google Android",
         "coreCount": 8,
-        "price": 29990
+        "price": 29990,
+        "rating": 5
       },
       {
         "id": 204,
@@ -87,7 +94,8 @@
         "picture": "https://cdn.svyaznoy.ru/upload/iblock/e6e/iphone_11_pro_sg_2.jpg/resize/307x224/",
         "os": "Apple iOS",
         "coreCount": 6,
-        "price": 131990
+        "price": 131990,
+        "rating": 9
 
       },
       {
@@ -97,7 +105,18 @@
         "picture": "https://cdn.svyaznoy.ru/upload/iblock/5f2/9x_blue-c3b.jpg/resize/307x224/",
         "os": "Google Android",
         "coreCount": 8,
-        "price": 15990
+        "price": 15990,
+        "rating": 6
+      },
+      {
+        "id": 206,
+        "name": "Xiaomi Mi Note 10",
+        "brand": "Xiaomi",
+        "picture": "https://cdn.svyaznoy.ru/upload/iblock/f62/17.jpg/resize/307x224/",
+        "os": "Xiaomi MIUI",
+        "coreCount": 8,
+        "price": 39990,
+        "rating": 7
       }
     ]
   }

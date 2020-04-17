@@ -13,7 +13,6 @@
 <script>
 import CartMini from './CartMini.vue';
 
-
 export default {
   name: 'Header',
   components: {

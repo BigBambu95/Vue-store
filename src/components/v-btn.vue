@@ -46,4 +46,9 @@ export default {
   border: 1px solid var(--main-color);
   color: var(--main-color);
 }
+
+.btn.contained {
+  background: var(--main-color);
+  color: #fff;
+}
 </style>
