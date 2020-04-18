@@ -1,8 +1,7 @@
 <template>
   <div class="category">
-    <h1>{{ getTitle(this.$store.getters.categories) }}</h1>
-    <Loader v-if="this.$store.state.catalog.loading" />
-    <div v-else class="category__body">
+    <h1 class="page-title">{{ getTitle(this.$store.getters.categories) }}</h1>
+    <div class="category__body">
       <aside class="sidebar filter-list">
         <ExpansionPanel title="Цена руб.">
           <div class="filter price">
@@ -58,7 +57,9 @@
         </v-btn>
       </div>
       <div class="products">
-        <div    
+        <Loader v-if="this.$store.state.catalog.loading" />
+        <div 
+          v-else    
           v-for="product in sortedProducts" 
           :key="product.id"
           class="product"
@@ -124,7 +125,7 @@ export default {
       this.$store.dispatch('FILTER_PRODUCTS');
     },
     resetFilter() {
-      console.log("reset filter")
+      this.$store.dispatch('RESET_FILTER');
     },
     setSortValue(ascendingValue, descendingValue) {
       this.sortValue = this.sortValue === ascendingValue ? descendingValue : ascendingValue;
@@ -174,6 +175,7 @@ export default {
   grid-template-areas: 'sidebar listingControls'
                         'sidebar products';
   grid-template-columns: 325px 1fr;
+  grid-template-rows: 85px;
   background: #fff;
 }
 
@@ -185,6 +187,7 @@ export default {
 
 .listing-controls {
   grid-area: listingControls;
+  max-height: 85px;
   padding: 1.5em;
   border-left: 1px solid #ededed;
 }
@@ -193,7 +196,6 @@ export default {
   display: flex;
   flex-flow: row wrap;
   padding: 1em;
-  border-bottom: 1px solid #ededed;
 }
 
 .filter.price {
@@ -221,10 +223,12 @@ export default {
   max-width: 1120px;
   display: flex;
   flex-flow: row wrap;
+  border-top: 1px solid #ededed;
+  border-left: 1px solid #ededed;
 }
 
 .product {
-  max-width: calc(1115px / 4);
+  width: 25%;
   display: inline-flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -235,13 +239,25 @@ export default {
   transition: .2s all;
 }
 
+@media screen and (max-width: 1380px) {
+  .product {
+    width: calc(100% / 3);
+  }
+}
+
+@media screen and (max-width: 1130px) {
+  .product {
+    width: 50%;
+  }
+}
+
 .product:hover {
   box-shadow: 0 0 10px 1px rgba(0, 0, 0, .125);
 }
 
 .product__picture {
   object-fit: contain;
-  width: 100%;
+  width: 250px;
   height: 200px;
 }
 

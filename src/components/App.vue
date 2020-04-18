@@ -65,4 +65,10 @@ input {
   margin: auto;
 }
 
+@media screen and (max-width: 1480px) {
+  .page-title {
+    padding-left: .75em;
+  }
+}
+
 </style>

@@ -7,7 +7,7 @@ export default class {
 
   getItems(data) {
     return new Promise((resolve, reject) => {
-      resolve(data);
+      resolve(data); 
     });
   }
 

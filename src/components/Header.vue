@@ -45,6 +45,12 @@ export default {
   font-weight: 700;
 }
 
+@media screen and (max-width: 1480px) {
+  .main-header .logo  {
+    padding-left: 1em;
+  }
+}
+
 .nav-bar {
   display: flex;
   justify-content: space-between;

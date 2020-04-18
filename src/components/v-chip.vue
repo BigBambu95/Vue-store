@@ -1,5 +1,11 @@
 <template>
-  <span class="chip" :class="[type, { active: isActive }]" @click="click">{{ label }} <span class="right-content">{{ rightContent }}</span></span>
+  <span 
+    class="chip" 
+    :class="[type, { active: isActive }]" 
+    @click="click">
+      {{ label }} 
+      <span class="right-content">{{ rightContent }}</span>
+    </span>
 </template>
 
 <script>

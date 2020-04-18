@@ -36,8 +36,16 @@ export const PRODUCT_COUNT_CHANGE = ({ commit }, payload) => {
 
 export const SET_FILTER = ({ commit }, payload) => {
   commit('SET_FILTER_REQUEST', payload);
+  commit('FILTER_PRODUCTS_REQUEST');
+  setTimeout(() => {
+    commit('FILTER_PRODUCTS_SUCCESS');
+  }, 750);
 }
 
 export const FILTER_PRODUCTS = ({ commit }) => {
   commit('FILTER_PRODUCTS_REQUEST');
+}
+
+export const RESET_FILTER = ({ commit }) => {
+  commit('RESET_FILTER_REQUEST');
 }

@@ -4,6 +4,7 @@ export const GET_PRODUCTS_REQUEST = (state) => {
 
 export const GET_PRODUCTS_SUCCESS = (state, products) => {
   state.products = products;
+  state.filteredProducts = products;
   state.loading = false;
 }
 
@@ -44,5 +45,24 @@ export const SET_FILTER_REQUEST = (state, payload) => {
 }
 
 export const FILTER_PRODUCTS_REQUEST = (state) => {
-  state.products = state.products.filter(product => product.brand === state.filter.brand);
+  state.loading = true;
+}
+
+export const FILTER_PRODUCTS_SUCCESS = (state) => {
+  state.loading = false;
+  state.filteredProducts = state.products.filter(product => {
+    for(let key in state.filter) {
+      if(product[key] !== state.filter[key]) {
+        return null;
+      }
+    }
+
+    return product;
+  });
+
+}
+
+export const RESET_FILTER_REQUEST = (state) => {
+  state.filter = {};
+  state.filteredProducts = state.products;
 }
