@@ -9,6 +9,21 @@ export const GET_PRODUCTS_SUCCESS = (state, products) => {
 }
 
 export const GET_PRODUCTS_FAILURE = (state, err) => {
+  state.loading = false;
+  state.error = err;
+}
+
+export const GET_PRODUCT_REQUEST = (state) => {
+  state.loading = true;
+}
+
+export const GET_PRODUCT_SUCCESS = (state, product) => {
+  state.data = product;
+  state.loading = false;
+}
+
+export const GET_PRODUCT_FAILURE = (state, err) => {
+  state.loading = false;
   state.error = err;
 }
 

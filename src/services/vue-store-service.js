@@ -1,9 +1,6 @@
 import db from '../db.json';
 
 export default class {
-  constructor() {
-
-  }
 
   getItems(data) {
     return new Promise((resolve, reject) => {
@@ -17,5 +14,11 @@ export default class {
 
   getCategory(category) {
     return this.getItems(db.products[category]);
+  }
+
+  getProduct(category, id) {
+    const products = this.getItems(db.products[category]);
+
+    return products.then(products => products.find(item => item.id == id));
   }
 }

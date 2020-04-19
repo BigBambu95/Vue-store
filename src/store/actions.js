@@ -26,6 +26,18 @@ export const GET_CATEGORIES = ({ commit }) => {
     });
 }
 
+export const GET_PRODUCT = ({ commit }, { category, id }) => {
+  commit('GET_PRODUCT_REQUEST');
+  vueStoreService
+    .getProduct(category, id)
+    .then(product => {
+      commit('GET_PRODUCT_SUCCESS', product);
+    })
+    .catch(err => {
+      commit('GET_PRODUCT_FAILURE', err);
+    });
+}
+
 export const ADD_TO_CART = ({ commit, state }, product) => {
   commit('ADD_TO_CART_REQUEST', product);
 }

@@ -26,7 +26,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #ededed;
   background: #fff;
 }
 

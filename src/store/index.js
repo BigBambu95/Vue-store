@@ -3,13 +3,15 @@ import Vuex from 'vuex';
 
 import catalog from './modules/catalog';
 import cart from './modules/cart';
+import product from './modules/product';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   modules: {
     catalog,
-    cart
+    cart,
+    product
   },
   strict: process.env.NODE_ENV !== 'production'
 });

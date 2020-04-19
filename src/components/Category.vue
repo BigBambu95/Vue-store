@@ -1,6 +1,6 @@
 <template>
   <div class="category">
-    <h1 class="page-title">{{ getTitle(this.$store.getters.categories) }}</h1>
+    <h1 class="page-title">{{ getCategoryName(this.$store.getters.categories) }}</h1>
     <div class="category__body">
       <aside class="sidebar filter-list">
         <ExpansionPanel title="Цена руб.">
@@ -64,8 +64,12 @@
           :key="product.id"
           class="product"
         >
-          <img class="product__picture" :src="product.picture" />
-          <div class="product__title">{{ product.name }}</div>
+          <router-link :to="{ name: 'product', params: { category: getCategoryUrl(), id: product.id  } }">
+            <img class="product__picture" :src="product.picture" />
+          </router-link>
+          <div class="product__title">
+            <router-link :to="{ name: 'product', params: { category: getCategoryUrl(), id: product.id  } }">{{ product.name }}</router-link>
+          </div>
           <div class="product__footer">
             <div class="product__price">{{ product.price.toLocaleString('ru') }} &#8381;</div>
             <v-btn class="product__add-cart" @click="addToCart(product)">
@@ -105,9 +109,13 @@ export default {
     addToCart(id) {
       this.$store.dispatch('ADD_TO_CART', id);
     },
-    getTitle(state) {
+    getCategoryName(state) {
       const item = state.find(item => this.$route.path.includes(item.url));
       return item.name;
+    },
+    getCategoryUrl() {
+      const item = this.$store.getters.categories.find(item => this.$route.path.includes(item.url));
+      return item.url;
     },
     getFilterFields(value) {
       const obj = {};
@@ -267,6 +275,11 @@ export default {
   font-size: var(--large);
   font-weight: 700;
   text-align: center;
+}
+
+.product__title a {
+  text-decoration: none;
+  color: currentColor;
 }
 
 .product__footer {
