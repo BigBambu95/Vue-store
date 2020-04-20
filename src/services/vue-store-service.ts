@@ -2,9 +2,13 @@ import db from '../db.json';
 
 export default class {
 
-  getItems(data) {
+  getItems(data: Array<object> | object) {
     return new Promise((resolve, reject) => {
-      resolve(data); 
+      try {
+        resolve(data); 
+      } catch(err) {
+        reject(err);
+      }
     });
   }
 
@@ -12,13 +16,13 @@ export default class {
     return this.getItems(db.categories);
   }
 
-  getCategory(category) {
+  getCategory(category: string) {
     return this.getItems(db.products[category]);
   }
 
-  getProduct(category, id) {
+  getProduct(category: string, id: number) {
     const products = this.getItems(db.products[category]);
 
-    return products.then(products => products.find(item => item.id == id));
+    return products.then((products) => products.find((item: { id: number }) => item.id == id));
   }
 }
