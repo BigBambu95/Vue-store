@@ -2,7 +2,7 @@
   <input :type="type" class="input" :placeholder="placeholder" />
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'v-input',
   props: {

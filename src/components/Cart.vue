@@ -31,7 +31,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import vBtn from './v-btn.vue';
 
 export default {

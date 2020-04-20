@@ -12,7 +12,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import IconBase from './icons/IconBase.vue';
 import IconArrow from './icons/IconArrow.vue';
 

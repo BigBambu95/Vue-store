@@ -4,7 +4,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
   mode: 'development',
-  entry: path.resolve(__dirname, 'src/index.js'),
+  entry: path.resolve(__dirname, 'src/index.ts'),
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -13,15 +13,28 @@ module.exports = {
   devServer: {
     overlay: true,
     hot: true,
-    open: true,
+    open: false,
     historyApiFallback: true
   },
   devtool: 'inline-source-map',
   module: {
     rules: [
       {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+        options: {
+          appendTsSuffixTo: [/\.vue$/]
+        }
+      },
+      {
         test: /\.vue$/,
-        use: ['vue-loader']
+        loader: 'vue-loader',
+        options: {
+          loaders: {
+            ts: 'ts-loader'
+          },
+          esModule: true
+        }
       },
       {
         test: /\.js$/,

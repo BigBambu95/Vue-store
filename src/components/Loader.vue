@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <div class="loader">
     <div class="ripple">
       <div></div>
@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'Loader'
 }

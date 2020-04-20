@@ -1,10 +1,10 @@
 import {
   GET_PRODUCT
-} from '../actions';
+} from '../actions.ts';
 
 import {
   GET_PRODUCT_REQUEST, GET_PRODUCT_SUCCESS, GET_PRODUCT_FAILURE
-} from '../mutations';
+} from '../mutations.ts';
 
 const product = {
   state: {

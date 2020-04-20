@@ -1,8 +1,12 @@
+import { Mutations } from 'vuex-smart-module';
+
+
+
 export const GET_PRODUCTS_REQUEST = (state) => {
   state.loading = true;
 }
 
-export const GET_PRODUCTS_SUCCESS = (state, products) => {
+export const GET_PRODUCTS_SUCCESS = (state, products: Array<object>) => {
   state.products = products;
   state.filteredProducts = products;
   state.loading = false;
@@ -17,7 +21,7 @@ export const GET_PRODUCT_REQUEST = (state) => {
   state.loading = true;
 }
 
-export const GET_PRODUCT_SUCCESS = (state, product) => {
+export const GET_PRODUCT_SUCCESS = (state, product: object) => {
   state.data = product;
   state.loading = false;
 }
@@ -31,7 +35,7 @@ export const GET_CATEGORIES_REQUEST = (state) => {
   state.loading = true;
 }
 
-export const GET_CATEGORIES_SUCCESS = (state, categories) => {
+export const GET_CATEGORIES_SUCCESS = (state, categories: Array<object>) => {
   state.categories = categories;
   state.loading = false;
 }
@@ -40,22 +44,9 @@ export const GET_CATEGORIES_FAILURE = (state, err) => {
   state.error = err;
 }
 
-export const ADD_TO_CART_REQUEST = (state, product) => {
-  product.count = 1;
-  product.sum = product.price;
-  state.products.push(product);
-  state.productCount += 1;
-  state.sum = state.products.map(product => product.price).reduce((price, sum) => sum + price);
-}
 
-export const PRODUCT_COUNT_CHANGE_REQUEST = (state, payload) => {
-  const product = state.products.find(item => item.id === payload.id);
-  product.count += payload.value;
-  product.sum = product.price * product.count;
-  state.sum = state.products.map(product => product.sum).reduce((price, total) => total + price);
-}
 
-export const SET_FILTER_REQUEST = (state, payload) => {
+export const SET_FILTER_REQUEST = (state, payload: object) => {
   state.filter[payload.key] = payload.value;
 }
 

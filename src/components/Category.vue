@@ -82,7 +82,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Prop, Vue } from 'Vue-property-decorator';
+
 import Loader from './Loader.vue';
 import ExpansionPanel from './ExpansionPanel.vue';
 import vBtn from './v-btn.vue';
@@ -91,7 +93,8 @@ import vChip from './v-chip.vue';
 import IconBase from './icons/IconBase.vue';
 import IconArrow from './icons/IconArrow.vue';
 
-export default {
+@Component
+export default class Category extends Vue {
   name: 'Catalog',
   components: {
     Loader,
@@ -106,8 +109,8 @@ export default {
     sortValue: ''
   }),
   methods: {
-    addToCart(id) {
-      this.$store.dispatch('ADD_TO_CART', id);
+    addToCart(product) {
+      this.$store.dispatch('ADD_TO_CART', product);
     },
     getCategoryName(state) {
       const item = state.find(item => this.$route.path.includes(item.url));
