@@ -5,7 +5,7 @@ const vueStoreService = new VueStoreService();
 export const GET_PRODUCTS = ({ commit }, category) => {
   commit('GET_PRODUCTS_REQUEST');
   vueStoreService
-    .getCategory(category)
+    .getProducts(category)
     .then(products => {
       commit('GET_PRODUCTS_SUCCESS', products);
     })
