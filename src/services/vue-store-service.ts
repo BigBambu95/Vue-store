@@ -1,28 +1,22 @@
-import db from '../db.json';
-
 export default class VueStoreService {
+  _url: string;
 
-  getItems(data: Array<object> | object) {
-    return new Promise((resolve, reject) => {
-      try {
-        resolve(data); 
-      } catch(err) {
-        reject(err);
-      }
-    });
+  constructor() {
+    this._url = 'http://localhost:3000/api'; 
   }
 
-  getCategories() {
-    return this.getItems(db.categories);
+  async getCategories() {
+    const categories = await fetch(`${this._url}/categories`)
+    return categories;
   }
 
-  getProducts(category: string) {
-    return this.getItems(db.products[category]);
+  async getProducts(category: string) {
+    const products = await fetch(`${this._url}/products/${category}`);
+    return products;
   }
 
-  getProduct(category: string, id: number) {
-    const products = this.getItems(db.products[category]);
-
-    return products.then((products) => products.find((item: { id: number }): boolean => item.id === id));
+  async getProduct(category: string, id: number) {
+    const product = await fetch(`${this._url}/products/${category}/${id}`);
+    return product;
   }
 }
