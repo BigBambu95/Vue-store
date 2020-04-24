@@ -1,6 +1,6 @@
 <template>
   <div class="category">
-    <h1 class="page-title">{{ getCategoryName(this.$store.getters.categories) }}</h1>
+    <h1 class="page-title">{{ getCategoryName() }}</h1>
     <div class="category__body">
       <aside class="sidebar filter-list">
         <ExpansionPanel title="Цена руб.">
@@ -93,8 +93,7 @@ import vChip from './v-chip.vue';
 import IconBase from './icons/IconBase.vue';
 import IconArrow from './icons/IconArrow.vue';
 
-@Component
-export default class Category extends Vue {
+@Component({
   name: 'Catalog',
   components: {
     Loader,
@@ -104,70 +103,85 @@ export default class Category extends Vue {
     vChip,
     IconBase,
     IconArrow
-  },
-  data: () => ({
-    sortValue: ''
-  }),
-  methods: {
-    addToCart(product) {
-      this.$store.dispatch('ADD_TO_CART', product);
-    },
-    getCategoryName(state) {
-      const item = state.find(item => this.$route.path.includes(item.url));
-      return item.name;
-    },
-    getCategoryUrl() {
-      const item = this.$store.getters.categories.find(item => this.$route.path.includes(item.url));
-      return item.url;
-    },
-    getFilterFields(value) {
-      const obj = {};
+  }
+})
+export default class Category extends Vue {
+  // Data
+  sortValue = '';
 
-      this.$store.getters.products.map(product => {
-        obj[product[value]] = obj[product[value]] ? obj[product[value]] + 1 : 1;
-      });
+  // Methods
+  addToCart(product: ProductTypes) {
+    this.$store.dispatch('ADD_TO_CART', product);
+  }
 
-      return obj;
-    },
-    setFilter(key, value) {
-      this.$store.dispatch('SET_FILTER', { key, value });
-    },
-    filterProducts() {
-      this.$store.dispatch('FILTER_PRODUCTS');
-    },
-    resetFilter() {
-      this.$store.dispatch('RESET_FILTER');
-    },
-    setSortValue(ascendingValue, descendingValue) {
-      this.sortValue = this.sortValue === ascendingValue ? descendingValue : ascendingValue;
-    }
-  },
-  computed: {
-    sortedProducts() {
+  getCategoryName() {
+    const item = this.$store.getters.categories.find((item: { url: string, name: string }) => this.$route.path.includes(item.url));
+    return item.name;
+  }
+
+  getCategoryUrl() {
+    const item = this.$store.getters.categories.find((item: { url: string }) => this.$route.path.includes(item.url));
+    return item.url;
+  }
+
+  getFilterFields(value: string) {
+    const obj: any = {};
+
+    this.$store.getters.products.map((product: any) => {
+      obj[product[value]] = obj[product[value]] ? obj[product[value]] + 1 : 1;
+    });
+
+    return obj;
+  }
+
+  setFilter(key: string, value: string) {
+    this.$store.dispatch('SET_FILTER', { key, value });
+  }
+
+  filterProducts() {
+    this.$store.dispatch('FILTER_PRODUCTS');
+  }
+
+  resetFilter() {
+    this.$store.dispatch('RESET_FILTER');
+  }
+
+  setSortValue(ascendingValue: string, descendingValue: string) {
+    this.sortValue = this.sortValue === ascendingValue ? descendingValue : ascendingValue;
+  }
+
+  // Computed
+  get sortedProducts() {
       switch(this.sortValue) {
         case '-price':
-          return this.$store.getters.products.slice().sort((a, b) => a.price - b.price);
+          return this.$store.getters.products.slice().sort((a: { price: number }, b: { price: number }) => a.price - b.price);
         
         case '+price': 
-          return this.$store.getters.products.slice().sort((a, b) => b.price - a.price);
+          return this.$store.getters.products.slice().sort((a: { price: number }, b: { price: number }) => b.price - a.price);
 
         case '-rating':
-          return this.$store.getters.products.slice().sort((a, b) => a.rating - b.rating);
+          return this.$store.getters.products.slice().sort((a: { rating: number }, b: { rating: number }) => a.rating - b.rating);
 
         case '+rating':
-          return this.$store.getters.products.slice().sort((a, b) => b.rating - a.rating);
+          return this.$store.getters.products.slice().sort((a: { rating: number }, b: { rating: number }) => b.rating - a.rating);
 
         default:
           return this.$store.getters.products;
       }
-    },
-    minPrice() {
-      return Math.min.apply(null, this.$store.getters.products.map(item => item.price));
-    },
-    maxPrice() {
-      return Math.max.apply(null, this.$store.getters.products.map(item => item.price));
     }
-  },
+
+  get productsPrice() {
+    return this.$store.getters.products.map((product: ProductTypes) => product.price);
+  }
+
+  get minPrice() {
+    return Math.min.apply(null, this.productsPrice);
+  }
+
+  get maxPrice() {
+    return Math.max.apply(null, this.productsPrice);
+  }
+
   mounted() {
     this.$store.dispatch('GET_CATEGORIES');
     this.$store.dispatch('GET_PRODUCTS', this.$route.params.category);

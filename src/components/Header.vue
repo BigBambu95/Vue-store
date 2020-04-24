@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <header class="main-header">
     <div class="container">
       <span class="logo">Vue Store</span>
@@ -12,13 +12,15 @@
 
 <script>
 import CartMini from './CartMini.vue';
+import { Component, Prop, Vue } from 'Vue-property-decorator';
 
-export default {
+@Component({
   name: 'Header',
   components: {
     CartMini
-  }
-}
+  },
+})
+export default class Header extends Vue {}
 </script>
 
 <style scoped>

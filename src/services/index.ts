@@ -7,16 +7,16 @@ export default class VueStoreService {
 
   async getCategories() {
     const categories = await fetch(`${this._url}/categories`)
-    return categories;
+    return categories.json();
   }
 
   async getProducts(category: string) {
     const products = await fetch(`${this._url}/products/${category}`);
-    return products;
+    return products.json();
   }
 
   async getProduct(category: string, id: number) {
     const product = await fetch(`${this._url}/products/${category}/${id}`);
-    return product;
+    return product.json();
   }
 }

@@ -1,26 +1,25 @@
 <template>
-  <button class="btn" :class="type" @click="click">
+  <button class="btn" :class="{ type, size }" @click="click">
     <slot></slot>
   </button>
 </template>
 
 <script lang="ts">
-export default {
-  name: 'Button',
-  props: {
-    size: {
-      type: String,
-      default: function() {
-        return '';
-      }
-    },
-    type: String,
-  },
-  methods: {
-    click() {
-      this.$emit('click');
-    }
+import { Component, Prop, Vue } from 'Vue-property-decorator';
+
+@Component({
+  name: 'Button'
+})
+
+export default class VBtn extends Vue {
+  @Prop({ default: 'medium' }) size: string | undefined;
+  @Prop({ default: 'contained'}) type: string | undefined;
+
+  // Methods
+  click() {
+    this.$emit('click');
   }
+
 }
 </script>
 

@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <router-link class="cart" to="/cart">
     <div class="cart__icon">
       <i class="fas fa-shopping-cart"></i>
@@ -17,13 +17,19 @@
 </template>
 
 <script lang="ts">
-export default {
-  name: 'CartMini',
-  computed: {
-    hasProducts() {
-      return this.$store.state.cart.productCount > 0;
-    }
-  } 
+import { Component, Prop, Vue } from 'Vue-property-decorator';
+
+@Component({
+  name: 'CartMini'
+})
+
+export default class CartMini extends Vue {
+ 
+  // Computed
+  get hasProducts() {
+    return this.$store.state.cart.productCount > 0;
+  }
+ 
 }
 </script>
 

@@ -32,26 +32,33 @@
 </template>
 
 <script lang="ts">
+import { Component, Prop, Vue } from 'Vue-property-decorator';
 import vBtn from './v-btn.vue';
 
-export default {
+@Component({
   name: 'Cart',
   components: {
     vBtn
-  },
-  methods: {
-    back() {
-      this.$router.go(-1);
-    },
-    plus(id) {
-      this.$store.dispatch('PRODUCT_COUNT_CHANGE', { id, value: 1 });
-      this.$forceUpdate();
-    },
-    minus(id) {
-      this.$store.dispatch('PRODUCT_COUNT_CHANGE', { id, value: -1 });
-      this.$forceUpdate();
-    }
   }
+})
+
+export default class Cart extends Vue {
+
+  // Methods
+  back() {
+    this.$router.go(-1);
+  }
+  
+  plus(id: number) {
+    this.$store.dispatch('PRODUCT_COUNT_CHANGE', { id, value: 1 });
+    this.$forceUpdate();
+  }
+
+  minus(id: number) {
+    this.$store.dispatch('PRODUCT_COUNT_CHANGE', { id, value: -1 });
+    this.$forceUpdate();
+  }
+  
 }
 </script>
 

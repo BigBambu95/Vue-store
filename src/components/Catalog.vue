@@ -19,12 +19,21 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
+import { catalog } from '../store/modules/catalog';
+
+const Mappers = Vue.extend({
+  methods: {
+    ...catalog.mapActions({
+      getCategories: 'GET_CATEGORIES'
+    })
+  }
+});
 
 @Component
-export default class Catalog extends Vue {
+export default class Catalog extends Mappers {
   
   mounted() {
-    this.$store.dispatch('GET_CATEGORIES');
+    this.getCategories();
   }
 }
 </script>

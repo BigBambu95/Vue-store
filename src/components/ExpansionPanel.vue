@@ -15,27 +15,29 @@
 <script lang="ts">
 import IconBase from './icons/IconBase.vue';
 import IconArrow from './icons/IconArrow.vue';
+import { Component, Prop, Vue } from 'Vue-property-decorator';
 
-export default {
+@Component({
   name: 'ExpansionPanel',
   components: {
     IconBase,
     IconArrow
-  },
-  props: {
-    title: String
-  },
-  data: () => ({
-    isActive: true,
-    contentHeight: 0,
-  }),
-  methods: {
-    toggle() {
-      this.isActive = !this.isActive;
-    }
-  },
+  }
+})
+export default class ExpansionPanel extends Vue {
+  @Prop({ default: 'Заголовок' }) title: string | undefined;
+   
+  // Data
+  isActive = true;
+  contentHeight = 0;
+
+  // Methods
+  toggle() {
+    this.isActive = !this.isActive;
+  }
+
   mounted() {
-    this.contentHeight = this.$slots.default[0].elm.clientHeight;
+    // this.contentHeight = this.$slots.default[0].elm.clientHeight;
   }
 }
 </script>

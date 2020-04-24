@@ -27,6 +27,10 @@ module.exports = {
         }
       },
       {
+        test: /\.js$/,
+        use: ['babel-loader']
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
@@ -37,15 +41,14 @@ module.exports = {
         }
       },
       {
-        test: /\.js$/,
-        use: ['babel-loader']
-      },
-      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       },
 
     ]
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [
     new HtmlWebpackPlugin({

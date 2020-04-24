@@ -21,14 +21,16 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'Vue-property-decorator';
 
-@Component
+@Component({
+  name: 'Product'
+})
 export default class Product extends Vue {
 
   mounted() {
-    // this.$store.dispatch('GET_PRODUCT', {
-    //   category: this.$route.params.category,
-    //   id: this.$route.params.id
-    // });
+    this.$store.dispatch('GET_PRODUCT', {
+      category: this.$route.params.category,
+      id: this.$route.params.id
+    });
   }  
 }
 

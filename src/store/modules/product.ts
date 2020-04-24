@@ -1,6 +1,6 @@
 import { Getters, Actions, Mutations, Module } from 'vuex-smart-module';
 
-import VueStoreService from '../services/vue-store-service';
+import VueStoreService from '../../services';
 
 const vueStoreService = new VueStoreService();
 
@@ -51,7 +51,7 @@ class ProductActions extends Actions<ProductState, ProductGetters, ProductMutati
 }
 
 
-export default new Module({
+export const product = new Module({
   state: ProductState,
   actions: ProductActions,
   mutations: ProductMutations,

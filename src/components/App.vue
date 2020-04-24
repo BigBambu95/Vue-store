@@ -9,17 +9,16 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'Vue-property-decorator';
+import Header from './Header.vue';
 
-
-@Component
-export default class App extends Vue {
-
-
-  fetchProducts() { 
-    this.$store.dispatch('GET_PRODUCTS');
+@Component({
+  name: 'App',
+  components: {
+    Header
   }
+})
 
-}
+export default class App extends Vue {}
 </script>
 
 <style>

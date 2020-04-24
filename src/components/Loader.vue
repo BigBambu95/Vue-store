@@ -8,9 +8,13 @@
 </template>
 
 <script lang="ts">
-export default {
+import { Component, Prop, Vue } from 'Vue-property-decorator';
+
+@Component({
   name: 'Loader'
-}
+})
+
+export default class Loader extends Vue {}
 </script>
 
 <style scoped>

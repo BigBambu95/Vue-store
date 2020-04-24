@@ -5,6 +5,9 @@ const totalPrice = (items: Array<ProductTypes>) => {
   return items.map((product: ProductTypes) => product.price).reduce((price, total) => total + price);
 }
 
+const findProduct = (product: ProductTypes, id: number): boolean => product.id === id;
+
+
 interface StateTypes {
   products: Array<ProductTypes>;
   loading: boolean;
@@ -21,7 +24,7 @@ interface ProductTypes {
 }
 
 class CartState implements StateTypes {
-  products = [];
+  products: Array<ProductTypes> = [];
   loading = false;
   error = null;
   productCount = 0;
@@ -43,7 +46,7 @@ class CartMutations extends Mutations<CartState> {
   }
   
   PRODUCT_COUNT_CHANGE_REQUEST = (payload: { id: number, value: number }) => {
-    const product = this.state.products.find((product : ProductTypes): boolean => product.id === payload.id);
+    const product: any = this.state.products.find(findProduct);
     product.count += payload.value;
     product.sum = product.price * product.count;
     
@@ -64,7 +67,7 @@ class CartActions extends Actions<CartState, CartGetters, CartMutations, CartAct
 }
 
 
-export default new Module({
+export const cart = new Module({
   state: CartState,
   actions: CartActions,
   mutations: CartMutations,

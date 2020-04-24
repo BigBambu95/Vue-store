@@ -3,18 +3,16 @@
 </template>
 
 <script lang="ts">
-export default {
-  name: 'v-input',
-  props: {
-    type: {
-      type: String,
-      required: true,
-      default: function() {
-        return 'text';
-      }
-    },
-    placeholder: String
-  }
+import { Component, Prop, Vue } from 'Vue-property-decorator';
+
+@Component({
+  name: 'Input'
+})
+
+export default class VChip extends Vue {
+  // Props
+  @Prop({ default: 'text' }) type: string | undefined;
+  @Prop() placeholder: string | undefined;
 }
 </script>
 

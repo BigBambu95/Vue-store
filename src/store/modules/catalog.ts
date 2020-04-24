@@ -1,6 +1,6 @@
 import { Getters, Actions, Mutations, Module } from 'vuex-smart-module';
 
-import VueStoreService from '../services/vue-store-service';
+import VueStoreService from '../../services';
 
 const vueStoreService = new VueStoreService();
 
@@ -8,18 +8,18 @@ interface StateTypes {
   products: Array<ProductTypes>;
   filteredProducts: Array<ProductTypes>;
   categories: Array<object>;
-  filter: object;
+  filter: object | {};
   loading: boolean;
   error: object;
 }
 
 class CatalogState implements StateTypes {
-  products = [];
-  filteredProducts = [];
-  categories = [];
-  filter = {};
-  loading = false;
-  error = {};
+  products: Array<ProductTypes> = [];
+  filteredProducts: Array<ProductTypes> = [];
+  categories: Array<object> = [];
+  filter: any = {};
+  loading: boolean = false;
+  error: object = {};
 }
 
 class CatalogGetters extends Getters<CatalogState> {
@@ -63,7 +63,6 @@ class CatalogMutations extends Mutations<CatalogState> {
   }
   
   
-  
   SET_FILTER_REQUEST = (payload: { value: string, key: string }) => {
     this.state.filter[payload.key] = payload.value;
   }
@@ -74,7 +73,7 @@ class CatalogMutations extends Mutations<CatalogState> {
   
   FILTER_PRODUCTS_SUCCESS = () => {
     this.state.loading = false;
-    this.state.filteredProducts = this.state.products.filter((product: ProductTypes) => {
+    this.state.filteredProducts = this.state.products.filter((product: any) => {
       for(let key in this.state.filter) {
         if(product[key] !== this.state.filter[key]) {
           return null;
@@ -137,9 +136,7 @@ class CatalogActions extends Actions<CatalogState, CatalogGetters, CatalogMutati
 }
 
 
-
-
-export default new Module({
+export const catalog = new Module({
   state: CatalogState,
   actions: CatalogActions,
   mutations: CatalogMutations,
