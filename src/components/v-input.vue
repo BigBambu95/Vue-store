@@ -2,19 +2,17 @@
   <input :type="type" class="input" :placeholder="placeholder" />
 </template>
 
-<script>
-export default {
-  name: 'v-input',
-  props: {
-    type: {
-      type: String,
-      required: true,
-      default: function() {
-        return 'text';
-      }
-    },
-    placeholder: String
-  }
+<script lang="ts">
+import { Component, Prop, Vue } from 'Vue-property-decorator';
+
+@Component({
+  name: 'Input'
+})
+
+export default class VChip extends Vue {
+  // Props
+  @Prop({ default: 'text' }) type: string | undefined;
+  @Prop() placeholder: string | undefined;
 }
 </script>
 

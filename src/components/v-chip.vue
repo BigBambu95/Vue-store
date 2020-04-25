@@ -8,26 +8,28 @@
     </span>
 </template>
 
-<script>
-export default {
-  name: 'Chip',
-  data: () => ({
-    isActive: false
-  }),
-  props: {
-    label: {
-      type: String | Number,
-      required: true
-    },
-    type: String,
-    rightContent: String | Number
-  },
-  methods: {
-    click() {
-      this.isActive = !this.isActive;
-      this.$emit('click');
-    }
+<script lang="ts">
+import { Component, Prop, Vue } from 'Vue-property-decorator';
+
+@Component({
+  name: 'Chip'
+})
+
+export default class VChip extends Vue {
+  // Props
+  @Prop() label: String | Number | undefined;
+  @Prop() type: String | undefined;
+  @Prop() rightContent: String | Number | undefined;
+
+  // Data
+  isActive: boolean = false;
+
+  // Methods
+  click() {
+    this.isActive = !this.isActive;
+    this.$emit('click');
   }
+  
 }
 </script>
 

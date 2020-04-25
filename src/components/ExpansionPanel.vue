@@ -12,30 +12,34 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import IconBase from './icons/IconBase.vue';
 import IconArrow from './icons/IconArrow.vue';
+import { Component, Prop, Vue } from 'Vue-property-decorator';
 
-export default {
+@Component({
   name: 'ExpansionPanel',
   components: {
     IconBase,
     IconArrow
-  },
-  props: {
-    title: String
-  },
-  data: () => ({
-    isActive: true,
-    contentHeight: 0,
-  }),
-  methods: {
-    toggle() {
-      this.isActive = !this.isActive;
-    }
-  },
+  }
+})
+export default class ExpansionPanel extends Vue {
+  // Props
+  @Prop({ default: 'Заголовок' }) title: string | undefined;
+   
+  // Data
+  isActive: boolean = true;
+  contentHeight: number = 0;
+
+  // Methods
+  toggle() {
+    this.isActive = !this.isActive;
+  }
+
   mounted() {
-    this.contentHeight = this.$slots.default[0].elm.clientHeight;
+    const node: any = this.$slots.default[0].elm;
+    this.contentHeight = node['clientHeight'];
   }
 }
 </script>

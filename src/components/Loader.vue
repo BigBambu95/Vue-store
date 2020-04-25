@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <div class="loader">
     <div class="ripple">
       <div></div>
@@ -7,10 +7,14 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { Component, Prop, Vue } from 'Vue-property-decorator';
+
+@Component({
   name: 'Loader'
-}
+})
+
+export default class Loader extends Vue {}
 </script>
 
 <style scoped>

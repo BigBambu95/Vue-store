@@ -7,20 +7,18 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Prop, Vue } from 'Vue-property-decorator';
 import Header from './Header.vue';
 
-export default {
+@Component({
   name: 'App',
   components: {
     Header
-  },
-  methods: {
-    fetchProducts() { 
-      this.$store.dispatch('GET_PRODUCTS');
-    }
   }
-}
+})
+
+export default class App extends Vue {}
 </script>
 
 <style>

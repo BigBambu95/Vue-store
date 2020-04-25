@@ -12,21 +12,24 @@
 
 <script>
 import CartMini from './CartMini.vue';
+import { Component, Prop, Vue } from 'Vue-property-decorator';
 
-export default {
+@Component({
   name: 'Header',
   components: {
     CartMini
-  }
-}
+  },
+})
+export default class Header extends Vue {}
 </script>
 
 <style scoped>
 .main-header {
+  min-height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #ededed;
   background: #fff;
 }
 

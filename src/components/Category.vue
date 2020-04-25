@@ -1,6 +1,6 @@
 <template>
   <div class="category">
-    <h1 class="page-title">{{ getTitle(this.$store.getters.categories) }}</h1>
+    <h1 class="page-title">{{ getCategoryName() }}</h1>
     <div class="category__body">
       <aside class="sidebar filter-list">
         <ExpansionPanel title="Цена руб.">
@@ -17,7 +17,7 @@
               :label="brand" 
               type="clickable"
               :rightContent="count"
-              @click="setFilter('brand', brand)" 
+              @click="setFilterHandler('brand', brand)" 
             />
           </div> 
         </ExpansionPanel>
@@ -29,12 +29,12 @@
               :label="os" 
               type="clickable"
               :rightContent="count"
-              @click="setFilter('os', os)" 
+              @click="setFilterHandler('os', os)" 
             />
           </div> 
         </ExpansionPanel>
         <div class="filter-list__footer">
-          <v-btn type="contained" @click="filterProducts">Показать</v-btn>
+          <v-btn type="contained" @click="filterProductsHandler">Показать</v-btn>
           <v-btn type="outlined" @click="resetFilter">Сбросить фильтр</v-btn>
         </div>
       </aside>
@@ -61,14 +61,18 @@
         <div 
           v-else    
           v-for="product in sortedProducts" 
-          :key="product.id"
+          :key="product._id"
           class="product"
         >
-          <img class="product__picture" :src="product.picture" />
-          <div class="product__title">{{ product.name }}</div>
+          <router-link :to="{ name: 'product', params: { category: getCategoryUrl(), id: product._id  } }">
+            <img class="product__picture" :src="product.picture" />
+          </router-link>
+          <div class="product__title">
+            <router-link :to="{ name: 'product', params: { category: getCategoryUrl(), id: product._id  } }">{{ product.name }}</router-link>
+          </div>
           <div class="product__footer">
             <div class="product__price">{{ product.price.toLocaleString('ru') }} &#8381;</div>
-            <v-btn class="product__add-cart" @click="addToCart(product)">
+            <v-btn class="product__add-cart" @click="addToCartHandler(product)">
               <i class="fas fa-shopping-cart"></i>
             </v-btn>
           </div>
@@ -78,7 +82,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Prop, Vue } from 'Vue-property-decorator';
+
 import Loader from './Loader.vue';
 import ExpansionPanel from './ExpansionPanel.vue';
 import vBtn from './v-btn.vue';
@@ -87,7 +93,26 @@ import vChip from './v-chip.vue';
 import IconBase from './icons/IconBase.vue';
 import IconArrow from './icons/IconArrow.vue';
 
-export default {
+import { cartMapper } from '../store/modules/cart';
+import { catalogMapper } from '../store/modules/catalog';
+
+
+const Mappers = Vue.extend({
+  methods: {
+    ...cartMapper.mapActions({
+      addToCart: 'ADD_TO_CART'
+    }),
+    ...catalogMapper.mapActions({
+      getCategories: 'GET_CATEGORIES',
+      getProducts: 'GET_PRODUCTS',
+      setFilter: 'SET_FILTER',
+      filterProducts: 'FILTER_PRODUCTS',
+      resetFilter: 'RESET_FILTER'
+    })
+  }
+});
+
+@Component({
   name: 'Catalog',
   components: {
     Loader,
@@ -97,69 +122,91 @@ export default {
     vChip,
     IconBase,
     IconArrow
-  },
-  data: () => ({
-    sortValue: ''
-  }),
-  methods: {
-    addToCart(id) {
-      this.$store.dispatch('ADD_TO_CART', id);
-    },
-    getTitle(state) {
-      const item = state.find(item => this.$route.path.includes(item.url));
-      return item.name;
-    },
-    getFilterFields(value) {
-      const obj = {};
+  }
+})
+export default class Category extends Mappers {
+  // Data
+  sortValue = '';
 
-      this.$store.getters.products.map(product => {
-        obj[product[value]] = obj[product[value]] ? obj[product[value]] + 1 : 1;
-      });
+  // Methods
+  addToCartHandler(product: ProductTypes) {
+    this.addToCart(product);
+  }
 
-      return obj;
-    },
-    setFilter(key, value) {
-      this.$store.dispatch('SET_FILTER', { key, value });
-    },
-    filterProducts() {
-      this.$store.dispatch('FILTER_PRODUCTS');
-    },
-    resetFilter() {
-      this.$store.dispatch('RESET_FILTER');
-    },
-    setSortValue(ascendingValue, descendingValue) {
-      this.sortValue = this.sortValue === ascendingValue ? descendingValue : ascendingValue;
-    }
-  },
-  computed: {
-    sortedProducts() {
+  getCategoryName() {
+    const category = this.$store.getters.categories.find((category: CategoryTypes): boolean => this.$route.path.includes(category.url));
+    return category.name;
+  }
+
+  getCategoryUrl() {
+    const category = this.$store.getters.categories.find((category: CategoryTypes): boolean => this.$route.path.includes(category.url));
+    return category.url;
+  }
+
+  getFilterFields(value: string) {
+    const obj: any = {};
+
+    this.$store.getters.products.map((product: any) => {
+      obj[product[value]] = obj[product[value]] ? obj[product[value]] + 1 : 1;
+    });
+
+    return obj;
+  }
+
+  setFilterHandler(key: string, value: string) {
+    this.setFilter({
+      key,
+      value
+    });
+  }
+
+  filterProductsHandler() {
+    this.filterProducts();
+  }
+
+  resetFilterHandler() {
+    this.resetFilter();
+  }
+
+  setSortValue(ascendingValue: string, descendingValue: string) {
+    this.sortValue = this.sortValue === ascendingValue ? descendingValue : ascendingValue;
+  }
+
+  // Computed
+  get sortedProducts() {
       switch(this.sortValue) {
         case '-price':
-          return this.$store.getters.products.slice().sort((a, b) => a.price - b.price);
+          return this.$store.getters.products.slice().sort((a: { price: number }, b: { price: number }) => a.price - b.price);
         
         case '+price': 
-          return this.$store.getters.products.slice().sort((a, b) => b.price - a.price);
+          return this.$store.getters.products.slice().sort((a: { price: number }, b: { price: number }) => b.price - a.price);
 
         case '-rating':
-          return this.$store.getters.products.slice().sort((a, b) => a.rating - b.rating);
+          return this.$store.getters.products.slice().sort((a: { rating: number }, b: { rating: number }) => a.rating - b.rating);
 
         case '+rating':
-          return this.$store.getters.products.slice().sort((a, b) => b.rating - a.rating);
+          return this.$store.getters.products.slice().sort((a: { rating: number }, b: { rating: number }) => b.rating - a.rating);
 
         default:
           return this.$store.getters.products;
       }
-    },
-    minPrice() {
-      return Math.min.apply(null, this.$store.getters.products.map(item => item.price));
-    },
-    maxPrice() {
-      return Math.max.apply(null, this.$store.getters.products.map(item => item.price));
     }
-  },
+
+  get productsPrice() {
+    return this.$store.getters.products.map((product: ProductTypes) => product.price);
+  }
+
+  get minPrice() {
+    return Math.min.apply(null, this.productsPrice);
+  }
+
+  get maxPrice() {
+    return Math.max.apply(null, this.productsPrice);
+  }
+
   mounted() {
-    this.$store.dispatch('GET_CATEGORIES');
-    this.$store.dispatch('GET_PRODUCTS', this.$route.params.category);
+    this.getCategories();
+    this.getProducts(this.$route.params.category);
   }
 }
 </script>
@@ -267,6 +314,11 @@ export default {
   font-size: var(--large);
   font-weight: 700;
   text-align: center;
+}
+
+.product__title a {
+  text-decoration: none;
+  color: currentColor;
 }
 
 .product__footer {

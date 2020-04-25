@@ -11,19 +11,25 @@
     </div>
     <div v-else class="cart__sum">
       <div>Сумма</div>
-      <div>{{ this.$store.state.cart.sum }} &#8381;</div>
+      <div>{{ this.$store.state.cart.total }} &#8381;</div>
     </div>
   </router-link>
 </template>
 
-<script>
-export default {
-  name: 'CartMini',
-  computed: {
-    hasProducts() {
-      return this.$store.state.cart.productCount > 0;
-    }
-  } 
+<script lang="ts">
+import { Component, Prop, Vue } from 'Vue-property-decorator';
+
+@Component({
+  name: 'CartMini'
+})
+
+export default class CartMini extends Vue {
+ 
+  // Computed
+  get hasProducts() {
+    return this.$store.state.cart.productCount > 0;
+  }
+ 
 }
 </script>
 

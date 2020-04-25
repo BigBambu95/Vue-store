@@ -17,11 +17,25 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Catalog',
+<script lang="ts">
+import { Vue, Component, Prop } from 'vue-property-decorator';
+import { catalogMapper } from '../store/modules/catalog';
+import { rootMapper } from '../store/modules/index';
+
+
+const Mappers = Vue.extend({
+  methods: {
+    ...catalogMapper.mapActions({
+      getCategories: 'GET_CATEGORIES',
+    })
+  }
+});
+
+@Component
+export default class Catalog extends Mappers {
+  
   mounted() {
-    this.$store.dispatch('GET_CATEGORIES');
+    this.getCategories();
   }
 }
 </script>

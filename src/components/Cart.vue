@@ -8,50 +8,67 @@
       На данный момент ваша корзина пуста
     </div>
     <div v-else class="cart__body">
-      <div class="product" v-for="product in this.$store.state.cart.products" :key="product.id">
+      <div class="product" v-for="product in this.$store.state.cart.products" :key="product._id">
         <div class="product__picture">
           <img :src="product.picture" />
         </div>
         <div class="product__title">{{ product.name }}</div>
         <div class="product__count">
-          <v-btn class="btn minus" @click="minus(product.id)" :disabled="product.count === 1">
+          <v-btn class="btn minus" @click="minus(product._id)" :disabled="product.count === 1">
             <i>&minus;</i>
           </v-btn>
           <output class="output">{{ product.count }}</output>
-          <v-btn class="btn plus" @click="plus(product.id)" :disabled="product.count === 9">
+          <v-btn class="btn plus" @click="plus(product._id)" :disabled="product.count === 9">
             <i>&plus;</i>
           </v-btn>
         </div>
         <div class="product__price">{{ product.sum.toLocaleString('ru') }} &#8381;</div>
       </div>
       <footer class="cart__footer">
-        Итого {{ this.$store.state.cart.productCount }} товар <span class="total">{{ this.$store.state.cart.sum.toLocaleString('ru') }} &#8381;</span>
+        Итого {{ this.$store.state.cart.productCount }} товар <span class="total">{{ this.$store.state.cart.total.toLocaleString('ru') }} &#8381;</span>
       </footer>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Prop, Vue } from 'Vue-property-decorator';
 import vBtn from './v-btn.vue';
 
-export default {
+import { cartMapper } from '../store/modules/cart';
+
+const Mapper = Vue.extend({
+  methods: {
+    ...cartMapper.mapActions({
+      productCountChange: 'PRODUCT_COUNT_CHANGE'
+    })
+  }
+});
+
+@Component({
   name: 'Cart',
   components: {
     vBtn
-  },
-  methods: {
-    back() {
-      this.$router.go(-1);
-    },
-    plus(id) {
-      this.$store.dispatch('PRODUCT_COUNT_CHANGE', { id, value: 1 });
-      this.$forceUpdate();
-    },
-    minus(id) {
-      this.$store.dispatch('PRODUCT_COUNT_CHANGE', { id, value: -1 });
-      this.$forceUpdate();
-    }
   }
+})
+
+export default class Cart extends Mapper {
+
+  // Methods
+  back() {
+    this.$router.go(-1);
+  }
+  
+  plus(id: number) {
+    this.productCountChange({ id, value: 1 });
+    this.$forceUpdate();
+  }
+
+  minus(id: number) {
+    this.productCountChange({ id, value: -1 });
+    this.$forceUpdate();
+  }
+  
 }
 </script>
 
