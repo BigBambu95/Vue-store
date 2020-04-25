@@ -17,7 +17,7 @@
               :label="brand" 
               type="clickable"
               :rightContent="count"
-              @click="setFilter('brand', brand)" 
+              @click="setFilterHandler('brand', brand)" 
             />
           </div> 
         </ExpansionPanel>
@@ -29,12 +29,12 @@
               :label="os" 
               type="clickable"
               :rightContent="count"
-              @click="setFilter('os', os)" 
+              @click="setFilterHandler('os', os)" 
             />
           </div> 
         </ExpansionPanel>
         <div class="filter-list__footer">
-          <v-btn type="contained" @click="filterProducts">Показать</v-btn>
+          <v-btn type="contained" @click="filterProductsHandler">Показать</v-btn>
           <v-btn type="outlined" @click="resetFilter">Сбросить фильтр</v-btn>
         </div>
       </aside>
@@ -61,18 +61,18 @@
         <div 
           v-else    
           v-for="product in sortedProducts" 
-          :key="product.id"
+          :key="product._id"
           class="product"
         >
-          <router-link :to="{ name: 'product', params: { category: getCategoryUrl(), id: product.id  } }">
+          <router-link :to="{ name: 'product', params: { category: getCategoryUrl(), id: product._id  } }">
             <img class="product__picture" :src="product.picture" />
           </router-link>
           <div class="product__title">
-            <router-link :to="{ name: 'product', params: { category: getCategoryUrl(), id: product.id  } }">{{ product.name }}</router-link>
+            <router-link :to="{ name: 'product', params: { category: getCategoryUrl(), id: product._id  } }">{{ product.name }}</router-link>
           </div>
           <div class="product__footer">
             <div class="product__price">{{ product.price.toLocaleString('ru') }} &#8381;</div>
-            <v-btn class="product__add-cart" @click="addToCart(product)">
+            <v-btn class="product__add-cart" @click="addToCartHandler(product)">
               <i class="fas fa-shopping-cart"></i>
             </v-btn>
           </div>
@@ -93,6 +93,25 @@ import vChip from './v-chip.vue';
 import IconBase from './icons/IconBase.vue';
 import IconArrow from './icons/IconArrow.vue';
 
+import { cartMapper } from '../store/modules/cart';
+import { catalogMapper } from '../store/modules/catalog';
+
+
+const Mappers = Vue.extend({
+  methods: {
+    ...cartMapper.mapActions({
+      addToCart: 'ADD_TO_CART'
+    }),
+    ...catalogMapper.mapActions({
+      getCategories: 'GET_CATEGORIES',
+      getProducts: 'GET_PRODUCTS',
+      setFilter: 'SET_FILTER',
+      filterProducts: 'FILTER_PRODUCTS',
+      resetFilter: 'RESET_FILTER'
+    })
+  }
+});
+
 @Component({
   name: 'Catalog',
   components: {
@@ -105,23 +124,23 @@ import IconArrow from './icons/IconArrow.vue';
     IconArrow
   }
 })
-export default class Category extends Vue {
+export default class Category extends Mappers {
   // Data
   sortValue = '';
 
   // Methods
-  addToCart(product: ProductTypes) {
-    this.$store.dispatch('ADD_TO_CART', product);
+  addToCartHandler(product: ProductTypes) {
+    this.addToCart(product);
   }
 
   getCategoryName() {
-    const item = this.$store.getters.categories.find((item: { url: string, name: string }) => this.$route.path.includes(item.url));
-    return item.name;
+    const category = this.$store.getters.categories.find((category: CategoryTypes): boolean => this.$route.path.includes(category.url));
+    return category.name;
   }
 
   getCategoryUrl() {
-    const item = this.$store.getters.categories.find((item: { url: string }) => this.$route.path.includes(item.url));
-    return item.url;
+    const category = this.$store.getters.categories.find((category: CategoryTypes): boolean => this.$route.path.includes(category.url));
+    return category.url;
   }
 
   getFilterFields(value: string) {
@@ -134,16 +153,19 @@ export default class Category extends Vue {
     return obj;
   }
 
-  setFilter(key: string, value: string) {
-    this.$store.dispatch('SET_FILTER', { key, value });
+  setFilterHandler(key: string, value: string) {
+    this.setFilter({
+      key,
+      value
+    });
   }
 
-  filterProducts() {
-    this.$store.dispatch('FILTER_PRODUCTS');
+  filterProductsHandler() {
+    this.filterProducts();
   }
 
-  resetFilter() {
-    this.$store.dispatch('RESET_FILTER');
+  resetFilterHandler() {
+    this.resetFilter();
   }
 
   setSortValue(ascendingValue: string, descendingValue: string) {
@@ -183,8 +205,8 @@ export default class Category extends Vue {
   }
 
   mounted() {
-    this.$store.dispatch('GET_CATEGORIES');
-    this.$store.dispatch('GET_PRODUCTS', this.$route.params.category);
+    this.getCategories();
+    this.getProducts(this.$route.params.category);
   }
 }
 </script>

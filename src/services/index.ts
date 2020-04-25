@@ -6,17 +6,25 @@ export default class VueStoreService {
   }
 
   async getCategories() {
-    const categories = await fetch(`${this._url}/categories`)
-    return categories.json();
+    try {
+      const res = await fetch(`${this._url}/categories`);
+      return res.json();
+    } catch(err) {
+      return err;
+    }
   }
 
   async getProducts(category: string) {
-    const products = await fetch(`${this._url}/products/${category}`);
-    return products.json();
+    const res = await fetch(`${this._url}/products/${category}`);
+    return res.json();
   }
 
-  async getProduct(category: string, id: number) {
-    const product = await fetch(`${this._url}/products/${category}/${id}`);
-    return product.json();
+  async getProduct(category: string, id: string) {
+    try {
+      const res = await fetch(`${this._url}/products/${category}/${id}`);
+      return res.json();
+    } catch(err) {
+      return err;
+    }
   }
 }

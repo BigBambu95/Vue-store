@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <router-link class="cart" to="/cart">
     <div class="cart__icon">
       <i class="fas fa-shopping-cart"></i>
@@ -11,7 +11,7 @@
     </div>
     <div v-else class="cart__sum">
       <div>Сумма</div>
-      <div>{{ this.$store.state.cart.sum }} &#8381;</div>
+      <div>{{ this.$store.state.cart.total }} &#8381;</div>
     </div>
   </router-link>
 </template>

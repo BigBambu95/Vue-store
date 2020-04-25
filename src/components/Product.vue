@@ -7,7 +7,7 @@
     </header>
     <div class="product__body">
       <div class="product__picture">
-        <img :src="this.$store.state.product.data.detailPicture" />
+        <img :src="this.$store.getters.detailPicture" />
       </div>
       <div class="product__options">
         <div>
@@ -21,13 +21,23 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'Vue-property-decorator';
 
+import { productMapper } from '../store/modules/product';
+
+const Mapper = Vue.extend({
+  methods: {
+    ...productMapper.mapActions({
+      getProduct: 'GET_PRODUCT'
+    }),
+  }
+})
+
 @Component({
   name: 'Product'
 })
-export default class Product extends Vue {
+export default class Product extends Mapper {
 
   mounted() {
-    this.$store.dispatch('GET_PRODUCT', {
+    this.getProduct({
       category: this.$route.params.category,
       id: this.$route.params.id
     });

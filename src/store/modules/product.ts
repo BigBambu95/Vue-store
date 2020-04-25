@@ -1,4 +1,4 @@
-import { Getters, Actions, Mutations, Module } from 'vuex-smart-module';
+import { Getters, Actions, Mutations, Module, createMapper } from 'vuex-smart-module';
 
 import VueStoreService from '../../services';
 
@@ -12,32 +12,36 @@ interface StateTypes {
 
 
 class ProductState implements StateTypes {
-  data = {};
-  loading = false;
-  error = {};
+  data: ProductTypes = {};
+  loading: boolean = false;
+  error: object = {};
 }
 
-class ProductGetters extends Getters<ProductState> {}
+class ProductGetters extends Getters<ProductState> {
+  get detailPicture(): string {
+    return this.state.data.detailPicture;
+  }
+}
 
 class ProductMutations extends Mutations<ProductState> {
 
-  GET_PRODUCT_REQUEST = () => {
+  GET_PRODUCT_REQUEST() {
     this.state.loading = true;
   }
   
-  GET_PRODUCT_SUCCESS = (product: ProductTypes) => {
+  GET_PRODUCT_SUCCESS(product: ProductTypes) {
     this.state.data = product;
     this.state.loading = false;
   }
   
-  GET_PRODUCT_FAILURE = (err: object) => {
+  GET_PRODUCT_FAILURE(err: object) {
     this.state.loading = false;
     this.state.error = err;
   }
 }
 
 class ProductActions extends Actions<ProductState, ProductGetters, ProductMutations, ProductActions> {
-  GET_PRODUCT = (payload: { category: string, id: number }) => {
+  GET_PRODUCT(payload: { category: string, id: string }) {
     this.commit('GET_PRODUCT_REQUEST');
     vueStoreService
       .getProduct(payload.category, payload.id)
@@ -52,9 +56,11 @@ class ProductActions extends Actions<ProductState, ProductGetters, ProductMutati
 
 
 export const product = new Module({
+  namespaced: false,
   state: ProductState,
   actions: ProductActions,
   mutations: ProductMutations,
   getters: ProductGetters
 });
 
+export const productMapper = createMapper(product);

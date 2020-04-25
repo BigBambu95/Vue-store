@@ -25,11 +25,12 @@ import { Component, Prop, Vue } from 'Vue-property-decorator';
   }
 })
 export default class ExpansionPanel extends Vue {
+  // Props
   @Prop({ default: 'Заголовок' }) title: string | undefined;
    
   // Data
-  isActive = true;
-  contentHeight = 0;
+  isActive: boolean = true;
+  contentHeight: number = 0;
 
   // Methods
   toggle() {
@@ -37,7 +38,8 @@ export default class ExpansionPanel extends Vue {
   }
 
   mounted() {
-    // this.contentHeight = this.$slots.default[0].elm.clientHeight;
+    const node: any = this.$slots.default[0].elm;
+    this.contentHeight = node['clientHeight'];
   }
 }
 </script>

@@ -1,4 +1,4 @@
-import { Getters, Actions, Mutations, Module } from 'vuex-smart-module';
+import { Getters, Actions, Mutations, Module, createMapper } from 'vuex-smart-module';
 
 import VueStoreService from '../../services';
 
@@ -24,54 +24,54 @@ class CatalogState implements StateTypes {
 
 class CatalogGetters extends Getters<CatalogState> {
 
-  get products() {
+  get products(): Array<object> {
     return this.state.filteredProducts;
   }
 
-  get categories() {
+  get categories(): Array<object> {
     return this.state.categories;
   }
 }
 
 class CatalogMutations extends Mutations<CatalogState> {
-  GET_PRODUCTS_REQUEST = () => {
+  GET_PRODUCTS_REQUEST() {
     this.state.loading = true;
   }
   
-  GET_PRODUCTS_SUCCESS = (products: Array<ProductTypes>) => {
+  GET_PRODUCTS_SUCCESS(products: Array<ProductTypes>) {
     this.state.products = products;
     this.state.filteredProducts = products;
     this.state.loading = false;
   }
   
-  GET_PRODUCTS_FAILURE = (err: object) => {
+  GET_PRODUCTS_FAILURE(err: object) {
     this.state.loading = false;
     this.state.error = err;
   }
   
-  GET_CATEGORIES_REQUEST = () => {
+  GET_CATEGORIES_REQUEST() {
     this.state.loading = true;
   }
   
-  GET_CATEGORIES_SUCCESS = (categories: Array<object>) => {
+  GET_CATEGORIES_SUCCESS(categories: Array<object>) {
     this.state.categories = categories;
     this.state.loading = false;
   }
   
-  GET_CATEGORIES_FAILURE = (err: object) => {
+  GET_CATEGORIES_FAILURE(err: object) {
     this.state.error = err;
   }
   
   
-  SET_FILTER_REQUEST = (payload: { value: string, key: string }) => {
+  SET_FILTER_REQUEST(payload: { value: string, key: string }) {
     this.state.filter[payload.key] = payload.value;
   }
   
-  FILTER_PRODUCTS_REQUEST = () => {
+  FILTER_PRODUCTS_REQUEST() {
     this.state.loading = true;
   }
   
-  FILTER_PRODUCTS_SUCCESS = () => {
+  FILTER_PRODUCTS_SUCCESS() {
     this.state.loading = false;
     this.state.filteredProducts = this.state.products.filter((product: any) => {
       for(let key in this.state.filter) {
@@ -85,15 +85,16 @@ class CatalogMutations extends Mutations<CatalogState> {
   
   }
   
-  RESET_FILTER_REQUEST = () => {
+  RESET_FILTER_REQUEST() {
     this.state.filter = {};
     this.state.filteredProducts = this.state.products;
   }
+
 }
 
 class CatalogActions extends Actions<CatalogState, CatalogGetters, CatalogMutations, CatalogActions> {
 
-  GET_PRODUCTS = (category: string) => {
+  GET_PRODUCTS(category: string) {
     this.commit('GET_PRODUCTS_REQUEST');
     vueStoreService
       .getProducts(category)
@@ -105,7 +106,7 @@ class CatalogActions extends Actions<CatalogState, CatalogGetters, CatalogMutati
       });
   }
 
-  GET_CATEGORIES = () => {
+  GET_CATEGORIES() {
     this.commit('GET_CATEGORIES_REQUEST');
     vueStoreService
       .getCategories()
@@ -118,7 +119,7 @@ class CatalogActions extends Actions<CatalogState, CatalogGetters, CatalogMutati
   }
 
   
-  SET_FILTER = (payload: { value: string, key: string }) => {
+  SET_FILTER(payload: { value: string, key: string }) {
     this.commit('SET_FILTER_REQUEST', payload);
     this.commit('FILTER_PRODUCTS_REQUEST');
     setTimeout(() => {
@@ -126,20 +127,23 @@ class CatalogActions extends Actions<CatalogState, CatalogGetters, CatalogMutati
     }, 750);
   }
   
-  FILTER_PRODUCTS = () => {
+  FILTER_PRODUCTS() {
     this.commit('FILTER_PRODUCTS_REQUEST');
   }
   
-  RESET_FILTER = () => {
+  RESET_FILTER() {
     this.commit('RESET_FILTER_REQUEST');
   }
+  
 }
 
 
 export const catalog = new Module({
+  namespaced: false,
   state: CatalogState,
   actions: CatalogActions,
   mutations: CatalogMutations,
   getters: CatalogGetters
 });
 
+export const catalogMapper = createMapper(catalog);

@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <header class="main-header">
     <div class="container">
       <span class="logo">Vue Store</span>
@@ -25,6 +25,7 @@ export default class Header extends Vue {}
 
 <style scoped>
 .main-header {
+  min-height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;

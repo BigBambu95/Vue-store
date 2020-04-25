@@ -19,12 +19,14 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { catalog } from '../store/modules/catalog';
+import { catalogMapper } from '../store/modules/catalog';
+import { rootMapper } from '../store/modules/index';
+
 
 const Mappers = Vue.extend({
   methods: {
-    ...catalog.mapActions({
-      getCategories: 'GET_CATEGORIES'
+    ...catalogMapper.mapActions({
+      getCategories: 'GET_CATEGORIES',
     })
   }
 });
