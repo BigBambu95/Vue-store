@@ -8,12 +8,16 @@ interface ProductTypes {
   name?: string;
   picture?: string;
   detailPicture?: string;
-  brand?: string;
-  coreCount?: number;
   price?: number;
   rating?: number;
   count?: number;
   sum?: number;
+  options?: {
+    brand?: string;
+    coreCount?: number;
+    os?: string;
+    internalMemory?: number;
+  }
 }
 
 interface CategoryTypes {

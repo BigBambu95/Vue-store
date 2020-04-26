@@ -1,9 +1,9 @@
 <template>
   <span 
     class="chip" 
-    :class="[type, { active: isActive }]" 
+    :class="[type, { active: active }]" 
     @click="click">
-      {{ label }} 
+      <span class="label">{{ label }}</span> 
       <span class="right-content">{{ rightContent }}</span>
     </span>
 </template>
@@ -17,16 +17,13 @@ import { Component, Prop, Vue } from 'Vue-property-decorator';
 
 export default class VChip extends Vue {
   // Props
-  @Prop() label: String | Number | undefined;
-  @Prop() type: String | undefined;
-  @Prop() rightContent: String | Number | undefined;
-
-  // Data
-  isActive: boolean = false;
+  @Prop() label: string | number | undefined;
+  @Prop() type: string | undefined;
+  @Prop() rightContent: string | number | undefined;
+  @Prop() active: boolean;
 
   // Methods
   click() {
-    this.isActive = !this.isActive;
     this.$emit('click');
   }
   
@@ -56,5 +53,9 @@ export default class VChip extends Vue {
 .right-content {
   margin-left: .75em;
   color: #999;
+}
+
+.chip .label {
+  text-transform: capitalize;
 }
 </style>

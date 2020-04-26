@@ -10,13 +10,14 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    name: 'catalog',
     path: '/catalog',
-    component: Catalog
+    component: Catalog,
   },
   {
     name: 'category',
     path: '/catalog/:category',
-    component: Category
+    component: Category,
   },
   {
     name: 'product',
@@ -24,6 +25,7 @@ const routes = [
     component: Product
   },
   {
+    name: 'cart',
     path: '/cart',
     component: Cart
   }

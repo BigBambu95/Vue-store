@@ -37,7 +37,7 @@ export default class ExpansionPanel extends Vue {
     this.isActive = !this.isActive;
   }
 
-  mounted() {
+  updated() {
     const node: any = this.$slots.default[0].elm;
     this.contentHeight = node['clientHeight'];
   }

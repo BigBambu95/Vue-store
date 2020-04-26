@@ -1,6 +1,9 @@
 <template>
   <div class="category">
-    <h1 class="page-title">{{ getCategoryName() }}</h1>
+    <div class="category__header">
+      <h1 class="page-title">{{ getCategoryName() }}</h1>
+      <div>{{ this.productsCount() }} товара</div>
+    </div>
     <div class="category__body">
       <aside class="sidebar filter-list">
         <ExpansionPanel title="Цена руб.">
@@ -9,27 +12,16 @@
             <v-input type="text" :placeholder="maxPrice.toString()" />
           </div> 
         </ExpansionPanel>
-        <ExpansionPanel title="Производитель">
+        <ExpansionPanel v-for="(filter, key) in this.$store.state.catalog.filter" :title="filter.label" :key="key">
           <div class="filter">
             <v-chip 
-              v-for="(count, brand) in getFilterFields('brand')" 
-              :key="brand" 
-              :label="brand" 
+              v-for="(count, label) in getFilterFields(key)" 
+              :key="label" 
+              :label="label" 
+              :active="filter.value === label"
               type="clickable"
               :rightContent="count"
-              @click="setFilterHandler('brand', brand)" 
-            />
-          </div> 
-        </ExpansionPanel>
-        <ExpansionPanel title="Операционная система">
-          <div class="filter">
-            <v-chip 
-              v-for="(count, os) in getFilterFields('os')" 
-              :key="os" 
-              :label="os" 
-              type="clickable"
-              :rightContent="count"
-              @click="setFilterHandler('os', os)" 
+              @click="setFilterHandler(key, label)" 
             />
           </div> 
         </ExpansionPanel>
@@ -108,7 +100,8 @@ const Mappers = Vue.extend({
       setFilter: 'SET_FILTER',
       filterProducts: 'FILTER_PRODUCTS',
       resetFilter: 'RESET_FILTER'
-    })
+    }),
+    ...catalogMapper.mapGetters(['productsCount'])
   }
 });
 
@@ -126,19 +119,19 @@ const Mappers = Vue.extend({
 })
 export default class Category extends Mappers {
   // Data
-  sortValue = '';
+  sortValue: string = '';
 
   // Methods
-  addToCartHandler(product: ProductTypes) {
+  addToCartHandler(product: ProductTypes): void {
     this.addToCart(product);
   }
 
-  getCategoryName() {
+  getCategoryName(): string {
     const category = this.$store.getters.categories.find((category: CategoryTypes): boolean => this.$route.path.includes(category.url));
     return category.name;
   }
 
-  getCategoryUrl() {
+  getCategoryUrl(): string {
     const category = this.$store.getters.categories.find((category: CategoryTypes): boolean => this.$route.path.includes(category.url));
     return category.url;
   }
@@ -147,7 +140,7 @@ export default class Category extends Mappers {
     const obj: any = {};
 
     this.$store.getters.products.map((product: any) => {
-      obj[product[value]] = obj[product[value]] ? obj[product[value]] + 1 : 1;
+      obj[product.options[value]] = obj[product.options[value]] ? obj[product.options[value]] + 1 : 1;
     });
 
     return obj;
@@ -156,19 +149,20 @@ export default class Category extends Mappers {
   setFilterHandler(key: string, value: string) {
     this.setFilter({
       key,
-      value
+      value,
+      category: this.$route.params.category
     });
   }
 
-  filterProductsHandler() {
-    this.filterProducts();
+  filterProductsHandler(): void {
+    this.filterProducts(this.$route.params.category);
   }
 
-  resetFilterHandler() {
+  resetFilterHandler(): void {
     this.resetFilter();
   }
 
-  setSortValue(ascendingValue: string, descendingValue: string) {
+  setSortValue(ascendingValue: string, descendingValue: string): void {
     this.sortValue = this.sortValue === ascendingValue ? descendingValue : ascendingValue;
   }
 
@@ -215,6 +209,12 @@ export default class Category extends Mappers {
 :root {
   --filterBlockWidth: 325px;
   --productsBlockWidth: 1115px;
+}
+
+.category__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .category__body {
@@ -276,6 +276,7 @@ export default class Category extends Mappers {
 
 .product {
   width: 25%;
+  height: 360px;
   display: inline-flex;
   flex-flow: row wrap;
   justify-content: center;
