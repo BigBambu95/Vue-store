@@ -1,6 +1,6 @@
 import { Getters, Actions, Mutations, Module, createMapper } from 'vuex-smart-module';
 
-import VueStoreService from '../../services';
+import {VueStoreService} from '../../services';
 
 const vueStoreService = new VueStoreService();
 
@@ -20,6 +20,10 @@ class ProductState implements StateTypes {
 class ProductGetters extends Getters<ProductState> {
   get detailPicture(): string {
     return this.state.data.detailPicture;
+  }
+
+  get price(): string {
+    return this.state.data.price.toLocaleString('ru');
   }
 }
 

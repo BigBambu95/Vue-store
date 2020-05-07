@@ -63,9 +63,10 @@
             <router-link :to="{ name: 'product', params: { category: getCategoryUrl(), id: product._id  } }">{{ product.name }}</router-link>
           </div>
           <div class="product__footer">
-            <div class="product__price">{{ product.price.toLocaleString('ru') }} &#8381;</div>
-            <v-btn class="product__add-cart" @click="addToCartHandler(product)">
-              <i class="fas fa-shopping-cart"></i>
+            <div class="product__price">{{ getProductPrice(product) }} &#8381;</div>
+            <v-btn class="product__add-cart" :class="{ active: getActiveBtn(product) }" @click="addToCartHandler(product)" :disabled="getActiveBtn(product)">
+              <i class="fas fa-check" v-if="getActiveBtn(product)"></i>
+              <i class="fas fa-shopping-cart" v-else></i>
             </v-btn>
           </div>
         </div>
@@ -166,6 +167,14 @@ export default class Category extends Mappers {
     this.sortValue = this.sortValue === ascendingValue ? descendingValue : ascendingValue;
   }
 
+  getProductPrice(product: ProductTypes): string {
+    return product.price.toLocaleString('ru');
+  }
+
+  getActiveBtn(product: ProductTypes): boolean {
+    return this.$store.state.cart.products.find((item) => item._id === product._id) ? true : false;
+  }
+
   // Computed
   get sortedProducts() {
       switch(this.sortValue) {
@@ -197,6 +206,7 @@ export default class Category extends Mappers {
   get maxPrice() {
     return Math.max.apply(null, this.productsPrice);
   }
+
 
   mounted() {
     this.getCategories();
@@ -341,6 +351,10 @@ export default class Category extends Mappers {
 }
 
 .product__add-cart:hover {
+  background: var(--main-color-hover);
+}
+
+.product__add-cart.active {
   background: var(--main-color-hover);
 }
 

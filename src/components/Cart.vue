@@ -14,18 +14,18 @@
         </div>
         <div class="product__title">{{ product.name }}</div>
         <div class="product__count">
-          <v-btn class="btn minus" @click="minus(product._id)" :disabled="product.count === 1">
+          <v-btn class="minus" :rounded="true" type="outlined" @click="minus(product._id)" :disabled="product.count === 1">
             <i>&minus;</i>
           </v-btn>
           <output class="output">{{ product.count }}</output>
-          <v-btn class="btn plus" @click="plus(product._id)" :disabled="product.count === 9">
+          <v-btn class="plus" :rounded="true" type="outlined" @click="plus(product._id)" :disabled="product.count === 9">
             <i>&plus;</i>
           </v-btn>
         </div>
         <div class="product__price">{{ product.sum.toLocaleString('ru') }} &#8381;</div>
       </div>
       <footer class="cart__footer">
-        Итого {{ this.$store.state.cart.productCount }} товар <span class="total">{{ this.$store.state.cart.total.toLocaleString('ru') }} &#8381;</span>
+        Итого {{ this.$store.getters.productCount.toString() }} {{ getTranslate('product', this.$store.getters.productCount) }} <span class="total">{{ this.$store.getters.total }} &#8381;</span>
       </footer>
     </div>
   </div>
@@ -36,6 +36,10 @@ import { Component, Prop, Vue } from 'Vue-property-decorator';
 import vBtn from './v-btn.vue';
 
 import { cartMapper } from '../store/modules/cart';
+
+import { LocalizationService } from '../services';
+
+const localization = new LocalizationService();
 
 const Mapper = Vue.extend({
   methods: {
@@ -67,6 +71,10 @@ export default class Cart extends Mapper {
   minus(id: number) {
     this.productCountChange({ id, value: -1 });
     this.$forceUpdate();
+  }
+
+  getTranslate(key: string, count: number = 1): string {
+    return localization.getText(key, count);
   }
   
 }
@@ -121,13 +129,12 @@ export default class Cart extends Mapper {
   text-align: center;
 }
 
-.plus,
-.minus {
+.btn.plus,
+.btn.minus {
   width: 26px;
   height: 26px;
   padding: 0;
   border: 1px solid #ccc;
-  border-radius: 50%;
   background: transparent;
   color: #ccc;
   font-size: var(--large);

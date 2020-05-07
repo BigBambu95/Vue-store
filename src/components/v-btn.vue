@@ -1,5 +1,10 @@
 <template>
-  <button class="btn" :class="[type, size]" @click="click">
+  <button 
+    class="btn" 
+    :class="[type, size, { rounded, active }]" 
+    :style="{ width }"
+    @click="click"
+  >
     <slot></slot>
   </button>
 </template>
@@ -12,8 +17,11 @@ import { Component, Prop, Vue } from 'Vue-property-decorator';
 })
 
 export default class VBtn extends Vue {
-  @Prop({ default: 'medium' }) size: string | undefined;
-  @Prop({ default: 'contained'}) type: string | undefined;
+  @Prop({ default: 'medium' }) size?: 'large' | 'medium' | 'small';
+  @Prop({ default: 'contained'}) type?: 'contained' | 'outlined';
+  @Prop({ default: undefined }) width?: string | number;
+  @Prop({ default: false }) rounded?: boolean;
+  @Prop({ default: false }) active?: boolean;
 
   // Methods
   click() {
@@ -33,8 +41,13 @@ export default class VBtn extends Vue {
   border: none;
   border-radius: 5px;
   background: transparent;
+  line-height: 1;
   cursor: pointer;
   user-select: none;
+}
+
+.btn.rounded {
+  border-radius: 50%;
 }
 
 .btn.text {
@@ -50,4 +63,18 @@ export default class VBtn extends Vue {
   background: var(--main-color);
   color: #fff;
 }
+
+.btn.contained.active {
+  background: var(--main-color-hover);
+}
+
+.btn.btn.contained:hover {
+  background: var(--main-color-hover);
+}
+
+.btn.large {
+  height: 48px;
+  font-size: var(--huge);
+}
+
 </style>

@@ -29,6 +29,8 @@ export default class App extends Vue {}
   --small: 13px;
   --main-color: #6c5ce7;
   --main-color-hover: #fdcb6e;
+  --bold-font: 700;
+  --regular-font: 400;
 }
 
 *,

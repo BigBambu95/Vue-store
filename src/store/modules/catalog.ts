@@ -1,6 +1,6 @@
 import { Getters, Actions, Mutations, Module, createMapper } from 'vuex-smart-module';
 
-import VueStoreService from '../../services';
+import {VueStoreService} from '../../services';
 
 const vueStoreService = new VueStoreService();
 
@@ -88,6 +88,7 @@ class CatalogGetters extends Getters<CatalogState> {
   get productsCount(): number {
     return this.state.filteredProducts.length;
   }
+
 }
 
 class CatalogMutations extends Mutations<CatalogState> {

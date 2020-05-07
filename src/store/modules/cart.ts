@@ -11,7 +11,7 @@ interface StateTypes {
   loading: boolean;
   error: object | null;
   productCount: number;
-  total: number | undefined;
+  total: number;
 }
 
 class CartState implements StateTypes {
@@ -22,11 +22,21 @@ class CartState implements StateTypes {
   total: number = 0;
 }
 
-class CartGetters extends Getters<CartState> {}
+class CartGetters extends Getters<CartState> {
+  get total(): string {
+    return this.state.total.toLocaleString('ru');
+  }
+
+  get productCount(): number {
+    return this.state.productCount;
+  }
+}
 
 
 class CartMutations extends Mutations<CartState> {
   ADD_TO_CART_REQUEST(product: ProductTypes) {
+    if(this.state.products.find((item: ProductTypes) => item._id === product._id)) return false;
+
     product.count = 1;
     product.sum = product.price;
     this.state.products.push(product);
@@ -59,6 +69,7 @@ class CartActions extends Actions<CartState, CartGetters, CartMutations, CartAct
 
 
 export const cart = new Module({
+  namespaced: false,
   state: CartState,
   actions: CartActions,
   mutations: CartMutations,

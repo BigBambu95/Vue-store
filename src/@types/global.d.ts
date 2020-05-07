@@ -17,6 +17,7 @@ interface ProductTypes {
     coreCount?: number;
     os?: string;
     internalMemory?: number;
+    cpu?: string;
   }
 }
 
