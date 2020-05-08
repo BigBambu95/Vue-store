@@ -22,12 +22,12 @@
             {{ this.$store.getters.price }} &#8381;
           </div>
           <v-btn 
-            :class="{ active: getActiveBtn() }" 
+            :class="{ active: isActiveBtn() }" 
             size="large" width="100%" 
             @click="addToCartHandler" 
-            :disabled="getActiveBtn()"
+            :disabled="isActiveBtn()"
           >
-            Купить
+            {{ getTranslate({ key: 'addToCartBtn', status: isActiveBtn() ? 'active' : 'default' }) }}
           </v-btn>
         </div>
       </div>
@@ -78,11 +78,21 @@ export default class Product extends Mapper {
     this.addToCart(this.$store.state.product.data);
   }
 
-  getTranslate(key: string): string {
-    return localization.getText(key);
+
+  getTranslate(obj: { key: string, status: string }): string;
+  getTranslate(key: string): string;
+
+  getTranslate(x: any): any {
+    if(typeof(x) == 'object') {
+      return localization.getTextWithStatus(x.key, x.status);
+    }
+
+    else if(typeof(x) == 'string') {
+      return localization.getText(x);
+    }
   }
 
-  getActiveBtn(): boolean {
+  isActiveBtn(): boolean {
     const { product, cart } = this.$store.state;
     return cart.products.some(item => item._id === product.data._id) ? true : false;
   }

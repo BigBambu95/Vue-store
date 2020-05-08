@@ -14,4 +14,10 @@ export default class LocalizationService {
     }
   }
 
+  getTextWithStatus(key: string, status?: string): string {
+    return localization[key][status];
+  }
+
+
+
 }

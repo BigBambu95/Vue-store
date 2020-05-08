@@ -8,17 +8,17 @@
       <aside class="sidebar filter-list">
         <ExpansionPanel title="Цена руб.">
           <div class="filter price">
-            <v-input type="text" :placeholder="minPrice.toString()" />
-            <v-input type="text" :placeholder="maxPrice.toString()" />
+            <v-input type="text" :placeholder="minPrice.toString()" v-model.lazy="minPriceInput" />
+            <v-input type="text" :placeholder="maxPrice.toString()" v-model.lazy="maxPriceInput" />
           </div> 
         </ExpansionPanel>
-        <ExpansionPanel v-for="(filter, key) in this.$store.state.catalog.filter" :title="filter.label" :key="key">
+        <ExpansionPanel v-for="(filter, key) in filters" :title="getTranslate(key)" :key="key">
           <div class="filter">
             <v-chip 
               v-for="(count, label) in getFilterFields(key)" 
               :key="label" 
               :label="label" 
-              :active="filter.value === label"
+              :active="filter === label"
               type="clickable"
               :rightContent="count"
               @click="setFilterHandler(key, label)" 
@@ -89,6 +89,9 @@ import IconArrow from './icons/IconArrow.vue';
 import { cartMapper } from '../store/modules/cart';
 import { catalogMapper } from '../store/modules/catalog';
 
+import { LocalizationService } from '../services';
+
+const localization = new LocalizationService();
 
 const Mappers = Vue.extend({
   methods: {
@@ -103,6 +106,22 @@ const Mappers = Vue.extend({
       resetFilter: 'RESET_FILTER'
     }),
     ...catalogMapper.mapGetters(['productsCount'])
+  },
+  watch: {
+    minPriceInput: function(val) {
+      this.setFilter({
+        key: 'minPrice',
+        value: val,
+        category: this.$route.params.category
+      })
+    },
+    maxPriceInput: function(val) {
+     this.setFilter({
+        key: 'maxPrice',
+        value: val,
+        category: this.$route.params.category
+      })
+    }
   }
 });
 
@@ -118,9 +137,12 @@ const Mappers = Vue.extend({
     IconArrow
   }
 })
+
 export default class Category extends Mappers {
   // Data
   sortValue: string = '';
+  minPriceInput: string = '';
+  maxPriceInput: string = '';
 
   // Methods
   addToCartHandler(product: ProductTypes): void {
@@ -175,6 +197,10 @@ export default class Category extends Mappers {
     return this.$store.state.cart.products.find((item) => item._id === product._id) ? true : false;
   }
 
+  getTranslate(key: string): string {
+    return localization.getText(key);
+  }
+
   // Computed
   get sortedProducts() {
       switch(this.sortValue) {
@@ -205,6 +231,19 @@ export default class Category extends Mappers {
 
   get maxPrice() {
     return Math.max.apply(null, this.productsPrice);
+  }
+
+  get filters(): object {
+    const { filter } = this.$store.state.catalog;
+    const obj: {} = {};
+
+    for(let key in filter) {
+      if(key !== 'minPrice' && key !== 'maxPrice') {
+        obj[key] = filter[key];
+      }
+    }
+
+    return obj;
   }
 
 

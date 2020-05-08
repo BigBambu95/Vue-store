@@ -5,12 +5,12 @@ import {VueStoreService} from '../../services';
 const vueStoreService = new VueStoreService();
 
 // Создаем строку запроса для фильтрации товаров
-const createQuery = (obj: object): string => {
-  let string = '?';
+const createQuery = (obj?: FilterTypes): string => {
+  let string = `?minPrice=${obj.minPrice || '0'}&maxPrice=${obj.maxPrice || 'Infinity'}&`;
 
   for(let key in obj) {
-    if(obj[key].value !== '') {
-      string += `${key}=${obj[key].value}&`;
+    if(obj[key] !== '' && key !== 'minPrice' && key !== 'maxPrice') {
+      string += `${key}=${obj[key]}&`;
     }
   }
 
@@ -18,26 +18,12 @@ const createQuery = (obj: object): string => {
 }
 
 interface FilterTypes {
-  price?: {
-    min: number;
-    max: number;
-  },
-  brand?: {
-    label: string;
-    value: string;
-  };
-  os?: {
-    label: string;
-    value: string;
-  };
-  internalMemory?: {
-    label: string;
-    value: string;
-  };
-  coreCount?: {
-    label: string;
-    value: number | string;
-  };
+  minPrice?: string;
+  maxPrice?: string;
+  brand?: string;
+  os?: string;
+  internalMemory?: string;
+  coreCount?: number | string;
 }
 
 interface StateTypes {
@@ -54,22 +40,12 @@ class CatalogState implements StateTypes {
   filteredProducts: Array<ProductTypes> = [];
   categories: Array<object> = [];
   filter: FilterTypes = {
-    brand: {
-      label: 'Производитель',
-      value: ''
-    },
-    os: {
-      label: 'Операционная система',
-      value: ''
-    },
-    internalMemory: {
-      label: 'Встроенная память',
-      value: ''
-    },
-    coreCount: {
-      label: 'Количество ядер',
-      value: ''
-    }
+    minPrice: '',
+    maxPrice: '',
+    brand: '',
+    os: '',
+    internalMemory: '',
+    coreCount: ''
   };
   loading: boolean = false;
   error: object = {};
@@ -120,14 +96,18 @@ class CatalogMutations extends Mutations<CatalogState> {
     this.state.error = err;
   }
   
-  
   SET_FILTER_REQUEST(payload: { value: string, key: string }) {
-    this.state.filter[payload.key].value = payload.value;
+    this.state.filter[payload.key] = payload.value;
   }
   
-  
   RESET_FILTER_REQUEST() {
-    this.state.filter = {};
+    let obj: {} = {};
+
+    for(let key in this.state.filter) {
+      obj[key] = '';
+    }
+
+    this.state.filter = obj;
     this.state.filteredProducts = this.state.products;
   }
 
@@ -138,7 +118,7 @@ class CatalogActions extends Actions<CatalogState, CatalogGetters, CatalogMutati
   GET_PRODUCTS(category: string) {
     this.commit('GET_PRODUCTS_REQUEST');
     vueStoreService
-      .getProducts(category)
+      .getProducts(category, createQuery(this.state.filter))
       .then((products: Array<ProductTypes>) => {
         this.commit('GET_PRODUCTS_SUCCESS', products);
       })
@@ -172,7 +152,7 @@ class CatalogActions extends Actions<CatalogState, CatalogGetters, CatalogMutati
         this.commit('GET_PRODUCTS_FAILURE', err);
       });
   }
-  
+
 
   // TODO
 

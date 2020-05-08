@@ -8,5 +8,9 @@
     "one": "товар",
     "several": "товара",
     "group": "товаров"
+  },
+  "addToCartBtn": {
+    "default": "Купить",
+    "active": "В корзине"
   }
 }

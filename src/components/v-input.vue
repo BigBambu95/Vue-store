@@ -1,18 +1,24 @@
 <template>
-  <input :type="type" class="input" :placeholder="placeholder" />
+  <input :type="type" class="input" :placeholder="placeholder" @change="$emit('change', $event.target.value)" :value="value" />
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'Vue-property-decorator';
 
 @Component({
-  name: 'Input'
+  name: 'Input',
+  model: {
+    prop: 'value',
+    event: 'change'
+  }
 })
 
 export default class VChip extends Vue {
   // Props
+  @Prop() value: string | number;
   @Prop({ default: 'text' }) type: string | undefined;
   @Prop() placeholder: string | undefined;
+
 }
 </script>
 
