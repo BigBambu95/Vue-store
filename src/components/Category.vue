@@ -91,8 +91,6 @@ import { catalogMapper } from '../store/modules/catalog';
 
 import { LocalizationService } from '../services';
 
-const localization = new LocalizationService();
-
 const Mappers = Vue.extend({
   methods: {
     ...cartMapper.mapActions({
@@ -139,6 +137,9 @@ const Mappers = Vue.extend({
 })
 
 export default class Category extends Mappers {
+
+  localization = new LocalizationService(this.$store.state.lang);
+
   // Data
   sortValue: string = '';
   minPriceInput: string = '';
@@ -198,7 +199,7 @@ export default class Category extends Mappers {
   }
 
   getTranslate(key: string): string {
-    return localization.getText(key);
+    return this.localization.getText(key);
   }
 
   // Computed

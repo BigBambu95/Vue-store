@@ -1,20 +1,25 @@
 <template>
   <div class="vue-store">
     <Header />
-    <div class="container">
-      <router-view></router-view>
-    </div>
+    <main class="content">
+      <div class="container">
+        <router-view></router-view>
+      </div>
+    </main>
+    <Footer />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'Vue-property-decorator';
 import Header from './Header.vue';
+import Footer from './Footer.vue';
 
 @Component({
   name: 'App',
   components: {
-    Header
+    Header,
+    Footer
   }
 })
 
@@ -43,6 +48,7 @@ export default class App extends Vue {}
 
 html,
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
   font-family: 'Open Sans', sans-serif;
@@ -54,6 +60,16 @@ button,
 input {
   font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
+}
+
+.vue-store {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content {
+  flex-grow: 1;
 }
 
 .container {

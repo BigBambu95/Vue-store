@@ -1,16 +1,44 @@
 {
-  "brand": "Производитель",
-  "internalMemory": "Встроенная память (Гб)",
-  "coreCount": "Количество ядер",
-  "os": "Операционная система",
-  "cpu": "Процессор",
-  "product": {
-    "one": "товар",
-    "several": "товара",
-    "group": "товаров"
+  "ru": {
+    "brand": "Производитель",
+    "internalMemory": "Встроенная память (Гб)",
+    "coreCount": "Количество ядер",
+    "os": "Операционная система",
+    "cpu": "Процессор",
+    "product": {
+      "one": "товар",
+      "several": "товара",
+      "group": "товаров"
+    },
+    "addToCartBtn": {
+      "default": "Купить",
+      "active": "В корзине"
+    },
+    "catalog": "Каталог",
+    "lang": {
+      "ru": "Русский",
+      "en": "Английский"
+    }
   },
-  "addToCartBtn": {
-    "default": "Купить",
-    "active": "В корзине"
+  "en": {
+    "brand": "Brand",
+    "internalMemory": "Internal memory (Gb)",
+    "coreCount": "Number of cores",
+    "os": "Operating system",
+    "cpu": "CPU",
+    "product": {
+      "one": "product",
+      "several": "products",
+      "group": "products"
+    },
+    "addToCartBtn": {
+      "default": "Buy",
+      "active": "Added"
+    },
+    "catalog": "Catalog",
+    "lang": {
+      "ru": "Russian",
+      "en": "English"
+    }
   }
 }
