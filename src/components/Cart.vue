@@ -1,11 +1,13 @@
 <template>
   <div class="cart">
     <header class="cart__header">
-      <h1>Корзина</h1>
-      <v-btn @click="back" type="text">Вернуться к покупкам</v-btn>
+      <h1>{{ this.getTranslate('cart') }}</h1>
+      <v-btn @click="back" type="text">
+        {{ this.getTranslate('backToShopping') }}
+      </v-btn>
     </header>
     <div v-if="this.$store.state.cart.products < 1" class="cart__body cart--empty">
-      На данный момент ваша корзина пуста
+      {{ this.getTranslate('emptyCart') }}
     </div>
     <div v-else class="cart__body">
       <div class="product" v-for="product in this.$store.state.cart.products" :key="product._id">
@@ -25,7 +27,10 @@
         <div class="product__price">{{ product.sum.toLocaleString('ru') }} &#8381;</div>
       </div>
       <footer class="cart__footer">
-        Итого {{ this.$store.getters.productCount.toString() }} {{ getTranslate('product', this.$store.getters.productCount) }} <span class="total">{{ this.$store.getters.total }} &#8381;</span>
+        {{ this.getTranslate('total' )}} 
+        {{ this.$store.getters.productCount.toString() }} 
+        {{ this.getTranslateWithCount('product', this.$store.getters.productCount) }} 
+        <span class="total">{{ this.$store.getters.total }} &#8381;</span>
       </footer>
     </div>
   </div>
@@ -34,12 +39,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'Vue-property-decorator';
 import vBtn from './v-btn.vue';
-
 import { cartMapper } from '../store/modules/cart';
 
-import { LocalizationService } from '../services';
-
-const localization = new LocalizationService();
 
 const Mapper = Vue.extend({
   methods: {
@@ -73,9 +74,6 @@ export default class Cart extends Mapper {
     this.$forceUpdate();
   }
 
-  getTranslate(key: string, count: number = 1): string {
-    return localization.getText(key, count);
-  }
   
 }
 </script>

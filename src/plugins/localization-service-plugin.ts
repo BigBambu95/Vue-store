@@ -3,12 +3,18 @@ import store from '../store';
 
 const localizationServicePlugin = {
   install(Vue, options) {
-    const localization = new LocalizationService(store.state.lang);
+    const localization = new LocalizationService();
 
     Vue.mixin({
       methods: {
-        getTranslate(key: string, status?: string): string {
-          return localization.getTextWithStatus(key, status);
+        getTranslate(key: string): string {
+          return localization.getText(store.state.lang, key);
+        },
+        getTranslateWithStatus(key: string, status?: string): string {
+          return localization.getTextWithStatus(store.state.lang, key, status);
+        },
+        getTranslateWithCount(key: string, count: number): string {
+          return localization.getText(store.state.lang, key, count);
         }
       }
     });

@@ -1,10 +1,21 @@
 {
   "ru": {
+    "smartphones": "Смартфоны",
+    "laptops": "Ноутбуки",
     "brand": "Производитель",
     "internalMemory": "Встроенная память (Гб)",
     "coreCount": "Количество ядер",
     "os": "Операционная система",
     "cpu": "Процессор",
+    "price": {
+      "default": "Цена",
+      "by": "По цене"
+    },
+    "rating": {
+      "default": "Рейтинг",
+      "by": "По рейтингу"
+    },
+    "total": "Итого",
     "product": {
       "one": "товар",
       "several": "товара",
@@ -14,18 +25,35 @@
       "default": "Купить",
       "active": "В корзине"
     },
+    "filterBtn": "Показать",
+    "filterResetBtn": "Сбросить фильтр", 
     "catalog": "Каталог",
+    "cart": "Корзина",
+    "backToShopping": "Вернуться к покупкам",
+    "emptyCart": "На данный момент ваша корзина пуста",
+    "language": "Язык",
     "lang": {
       "ru": "Русский",
       "en": "Английский"
     }
   },
   "en": {
+    "smartphones": "Smartphones",
+    "laptops": "Laptops",
     "brand": "Brand",
     "internalMemory": "Internal memory (Gb)",
     "coreCount": "Number of cores",
     "os": "Operating system",
     "cpu": "CPU",
+    "price": {
+      "default": "Price",
+      "by": "By price"
+    },
+    "rating": {
+      "default": "Rating",
+      "by": "By rating"
+    },
+    "total": "Total",
     "product": {
       "one": "product",
       "several": "products",
@@ -35,7 +63,13 @@
       "default": "Buy",
       "active": "Added"
     },
+    "filterBtn": "Show",
+    "filterResetBtn": "Reset", 
     "catalog": "Catalog",
+    "cart": "Cart",
+    "backToShopping": "Back to shopping",
+    "emptyCart": "Your cart is empty",
+    "language": "Language",
     "lang": {
       "ru": "Russian",
       "en": "English"

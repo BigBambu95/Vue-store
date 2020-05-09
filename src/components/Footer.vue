@@ -2,8 +2,10 @@
   <footer class="main-footer">
     <div class="container">
       <div class="lang">
-        <div>Язык</div> 
-        <div class="lang__value" @click="changeLanguage">{{ this.getTranslate('lang', this.$store.state.lang) }}</div>
+        <div>{{ this.getTranslate('language') }}</div> 
+        <div class="lang__value" @click="changeLanguage">
+          {{ this.getTranslateWithStatus('lang', this.$store.state.lang) }}
+        </div>
       </div>
     </div>
   </footer>

@@ -4,7 +4,7 @@
       <span class="exp-panel__arrow">
         <icon-base iconName="arrow" width="10" height="10"><icon-arrow /></icon-base>
       </span>
-      <span>{{ title }}</span>
+      <span>{{ this.getTranslate(title) }}</span>
     </div>
     <div class="exp-panel__content" :style="{ height: isActive ? contentHeight + 'px' : 0 }">
       <slot></slot>

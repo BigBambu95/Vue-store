@@ -1,18 +1,18 @@
 <template>
   <div class="category">
     <div class="category__header">
-      <h1 class="page-title">{{ getCategoryName() }}</h1>
-      <div>{{ this.productsCount() }} товара</div>
+      <h1 class="page-title">{{ this.getTranslate(getCategoryName()) }}</h1>
+      <div>{{ this.productsCount() }} {{ this.getTranslateWithCount('product', this.productsCount()) }}</div>
     </div>
     <div class="category__body">
       <aside class="sidebar filter-list">
-        <ExpansionPanel title="Цена руб.">
+        <ExpansionPanel title="price">
           <div class="filter price">
             <v-input type="text" :placeholder="minPrice.toString()" v-model.lazy="minPriceInput" />
             <v-input type="text" :placeholder="maxPrice.toString()" v-model.lazy="maxPriceInput" />
           </div> 
         </ExpansionPanel>
-        <ExpansionPanel v-for="(filter, key) in filters" :title="getTranslate(key)" :key="key">
+        <ExpansionPanel v-for="(filter, key) in filters" :title="key" :key="key">
           <div class="filter">
             <v-chip 
               v-for="(count, label) in getFilterFields(key)" 
@@ -26,13 +26,13 @@
           </div> 
         </ExpansionPanel>
         <div class="filter-list__footer">
-          <v-btn type="contained" @click="filterProductsHandler">Показать</v-btn>
-          <v-btn type="outlined" @click="resetFilter">Сбросить фильтр</v-btn>
+          <v-btn type="contained" @click="filterProductsHandler">{{ this.getTranslate('filterBtn') }}</v-btn>
+          <v-btn type="outlined" @click="resetFilter">{{ this.getTranslate('filterResetBtn') }}</v-btn>
         </div>
       </aside>
       <div class="listing-controls">
         <v-btn @click="setSortValue('-price', '+price')" type="text" class="sort-btn">
-          <span>По цене</span>
+          <span>{{ this.getTranslateWithStatus('price', 'by') }}</span>
           <span v-if="sortValue.includes('price')" class="sort-btn__arrow" :class="{ down: sortValue === '+price' }">
             <icon-base iconName="arrow" width="9" height="6">
               <icon-arrow />  
@@ -40,7 +40,7 @@
           </span>
         </v-btn>
         <v-btn @click="setSortValue('-rating', '+rating')" type="text" class="sort-btn">
-          <span>По рейтингу</span>
+          <span>{{ this.getTranslateWithStatus('rating', 'by') }}</span>
           <span v-if="sortValue.includes('rating')" class="sort-btn__arrow" :class="{ down: sortValue === '+rating' }">
             <icon-base iconName="arrow" width="9" height="6">
               <icon-arrow />  
@@ -64,7 +64,12 @@
           </div>
           <div class="product__footer">
             <div class="product__price">{{ getProductPrice(product) }} &#8381;</div>
-            <v-btn class="product__add-cart" :class="{ active: getActiveBtn(product) }" @click="addToCartHandler(product)" :disabled="getActiveBtn(product)">
+            <v-btn 
+              class="product__add-cart" 
+              :class="{ active: getActiveBtn(product) }"
+              @click="addToCartHandler(product)" 
+              :disabled="getActiveBtn(product)"
+            >
               <i class="fas fa-check" v-if="getActiveBtn(product)"></i>
               <i class="fas fa-shopping-cart" v-else></i>
             </v-btn>
@@ -85,11 +90,8 @@ import vInput from './v-input.vue';
 import vChip from './v-chip.vue';
 import IconBase from './icons/IconBase.vue';
 import IconArrow from './icons/IconArrow.vue';
-
 import { cartMapper } from '../store/modules/cart';
 import { catalogMapper } from '../store/modules/catalog';
-
-import { LocalizationService } from '../services';
 
 const Mappers = Vue.extend({
   methods: {
@@ -138,8 +140,6 @@ const Mappers = Vue.extend({
 
 export default class Category extends Mappers {
 
-  localization = new LocalizationService(this.$store.state.lang);
-
   // Data
   sortValue: string = '';
   minPriceInput: string = '';
@@ -148,11 +148,6 @@ export default class Category extends Mappers {
   // Methods
   addToCartHandler(product: ProductTypes): void {
     this.addToCart(product);
-  }
-
-  getCategoryName(): string {
-    const category = this.$store.getters.categories.find((category: CategoryTypes): boolean => this.$route.path.includes(category.url));
-    return category.name;
   }
 
   getCategoryUrl(): string {
@@ -198,11 +193,14 @@ export default class Category extends Mappers {
     return this.$store.state.cart.products.find((item) => item._id === product._id) ? true : false;
   }
 
-  getTranslate(key: string): string {
-    return this.localization.getText(key);
+  getCategoryName(): string {
+    const category = this.$store.getters.categories.find((category: CategoryTypes): boolean => this.$route.path.includes(category.url));
+    return category.url;
   }
 
   // Computed
+
+
   get sortedProducts() {
       switch(this.sortValue) {
         case '-price':
@@ -248,7 +246,7 @@ export default class Category extends Mappers {
   }
 
 
-  mounted() {
+  created() {
     this.getCategories();
     this.getProducts(this.$route.params.category);
   }
@@ -313,6 +311,14 @@ export default class Category extends Mappers {
   justify-content: space-between;
   padding: 1em;
   text-align: center;
+}
+
+.filter-list__footer .btn {
+  flex-grow: 1;
+}
+
+.filter-list__footer .btn:first-child {
+  margin-right: 1em;
 }
 
 .products {

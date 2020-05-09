@@ -4,20 +4,15 @@ import { catalog } from './catalog';
 import { cart } from './cart';
 import { product } from './product';
 
-import { LocalizationService } from '../../services';
-
-const localization = new LocalizationService();
-
 interface StateTypes {
   lang: string;
 }
 
 class RootState implements StateTypes {
-  lang = 'ru';
+  lang: string = window.navigator.language.slice(0, 2);
 }
 class RootMutations extends Mutations<RootState> {
   CHANGE_LANGUAGE_REQUEST() {
-    this.state.lang === 'ru' ? localization.setLanguage('en'): localization.setLanguage('ru');
     this.state.lang = this.state.lang === 'ru' ? 'en': 'ru';
   }
 }

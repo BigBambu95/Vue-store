@@ -1,6 +1,6 @@
 <template>
   <div class="catalog">
-    <h1>Каталог</h1>
+    <h1>{{ this.getTranslate('catalog' )}}</h1>
     <div class="categories">
       <router-link 
         v-for="category in this.$store.getters.categories"
@@ -11,7 +11,9 @@
         <div class="category-link__picture">
           <img :src="category.picture" />
         </div>
-        <div class="category-link__title">{{ category.name }}</div>
+        <div class="category-link__title">
+          {{  }}
+        </div>
       </router-link>
     </div> 
   </div>
@@ -20,8 +22,6 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { catalogMapper } from '../store/modules/catalog';
-import { rootMapper } from '../store/modules/index';
-
 
 const Mappers = Vue.extend({
   methods: {
@@ -34,7 +34,7 @@ const Mappers = Vue.extend({
 @Component
 export default class Catalog extends Mappers {
   
-  mounted() {
+  created() {
     this.getCategories();
   }
 }

@@ -11,10 +11,12 @@
         <img :src="this.$store.getters.detailPicture" />
       </div>
       <div class="product__options">
-        <div v-for="(option, key) in this.$store.state.product.data.options" :key="key" class="option">
-           <span class="option__label">{{ getTranslate(key) }}</span>
-           <span class="option__value">{{ option }}</span>
-        </div>
+        <product-option 
+          v-for="(option, key) in this.$store.state.product.data.options" 
+          :key="key"
+          :label="key"
+          :value="option"
+        />
       </div>
       <div class="product__right-container">
         <div class="product__buy-product-block">
@@ -27,7 +29,7 @@
             @click="addToCartHandler" 
             :disabled="isActiveBtn()"
           >
-            {{ getTranslate({ key: 'addToCartBtn', status: isActiveBtn() ? 'active' : 'default' }) }}
+            {{ this.getTranslateWithStatus('addToCartBtn', isActiveBtn() ? 'active' : 'default') }}
           </v-btn>
         </div>
       </div>
@@ -39,12 +41,10 @@
 import { Component, Prop, Vue } from 'Vue-property-decorator';
 import vBtn from './v-btn.vue';
 import Loader from './Loader.vue';
-
+import ProductOption from './product-option.vue';
 import { productMapper } from '../store/modules/product';
 import { cartMapper } from '../store/modules/cart';
-import { LocalizationService } from '../services';
 
-const localization = new LocalizationService();
 
 const Mapper = Vue.extend({
   methods: {
@@ -61,16 +61,21 @@ const Mapper = Vue.extend({
   name: 'Product',
   components: {
     vBtn,
-    Loader
+    Loader,
+    ProductOption
   }
 })
 export default class Product extends Mapper {
 
   mounted() {
-    this.getProduct({
-      category: this.$route.params.category,
-      id: this.$route.params.id
-    });
+    this.$nextTick()
+      .then(() => {
+        this.getProduct({
+            category: this.$route.params.category,
+            id: this.$route.params.id
+        });
+      })
+      .catch(err => console.error(err));
   }  
 
   // Methods
@@ -78,24 +83,12 @@ export default class Product extends Mapper {
     this.addToCart(this.$store.state.product.data);
   }
 
-
-  getTranslate(obj: { key: string, status: string }): string;
-  getTranslate(key: string): string;
-
-  getTranslate(x: any): any {
-    if(typeof(x) == 'object') {
-      return localization.getTextWithStatus(x.key, x.status);
-    }
-
-    else if(typeof(x) == 'string') {
-      return localization.getText(x);
-    }
-  }
-
   isActiveBtn(): boolean {
     const { product, cart } = this.$store.state;
     return cart.products.some(item => item._id === product.data._id) ? true : false;
   }
+
+
 }
 
 </script>
@@ -124,26 +117,6 @@ export default class Product extends Mapper {
 
 .product__picture {
   margin: 0 2em;
-}
-
-.product__options {
-}
-
-.option {
-  margin: .75em 0;
-  font-size: var(--small);
-}
-
-.option__label {
-  color: #999;
-}
-
-.option__label:after {
-  content: ":";
-}
-
-.option__value {
-  text-transform: capitalize;
 }
 
 .product__buy-product-block {
