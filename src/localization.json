@@ -16,6 +16,7 @@
       "by": "По рейтингу"
     },
     "total": "Итого",
+    "sum": "Сумма",
     "product": {
       "one": "товар",
       "several": "товара",
@@ -31,6 +32,7 @@
     "cart": "Корзина",
     "backToShopping": "Вернуться к покупкам",
     "emptyCart": "На данный момент ваша корзина пуста",
+    "emptyMiniCart": "В корзине нет товаров",
     "language": "Язык",
     "lang": {
       "ru": "Русский",
@@ -54,6 +56,7 @@
       "by": "By rating"
     },
     "total": "Total",
+    "sum": "Sum",
     "product": {
       "one": "product",
       "several": "products",
@@ -69,6 +72,7 @@
     "cart": "Cart",
     "backToShopping": "Back to shopping",
     "emptyCart": "Your cart is empty",
+    "emptyMiniCart": "Cart is empty",
     "language": "Language",
     "lang": {
       "ru": "Russian",

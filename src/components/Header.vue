@@ -25,7 +25,7 @@ export default class Header extends Vue {}
 
 <style scoped>
 .main-header {
-  min-height: 60px;
+  height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
