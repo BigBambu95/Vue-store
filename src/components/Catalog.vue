@@ -1,6 +1,6 @@
 <template>
   <div class="catalog">
-    <h1>{{ this.getTranslate('catalog' )}}</h1>
+    <h1>{{ this.$localization.getTranslate('catalog') }}</h1>
     <div class="categories">
       <catalog-item 
         v-for="category in this.$store.getters.categories" 

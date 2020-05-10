@@ -7,10 +7,10 @@
       </span>
     </div>
     <div v-if="!hasProducts" class="cart__no-items">
-      {{ this.getTranslate('emptyMiniCart') }}
+      {{ this.$localization.getTranslate('emptyMiniCart') }}
     </div>
     <div v-else class="cart__sum">
-      <div>{{ this.getTranslate('sum') }}</div>
+      <div>{{ this.$localization.getTranslate('sum') }}</div>
       <div>{{ this.$store.state.cart.total }} &#8381;</div>
     </div>
   </router-link>
@@ -72,6 +72,11 @@ export default class CartMini extends Vue {
   width: 85px;
   margin-left: 30px;
   font-size: var(--small);
+}
+
+.cart__sum {
+  margin-left: 15px;
+  text-align: center;
 }
 
 </style>

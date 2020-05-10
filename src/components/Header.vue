@@ -3,7 +3,12 @@
     <div class="container">
       <span class="logo">Vue Store</span>
       <div class="nav-bar">
-        <router-link class="link" :to="{ name: 'catalog', params: { title: 'Каталог' } }">{{ this.getTranslate('catalog') }}</router-link>
+        <router-link 
+          class="link" 
+          :to="{ name: 'catalog' }"
+        >
+          {{ this.$localization.getTranslate('catalog') }}
+        </router-link>
         <CartMini />
       </div>
     </div>

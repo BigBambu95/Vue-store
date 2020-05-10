@@ -1,8 +1,8 @@
 <template>
   <div class="category">
     <div class="category__header">
-      <h1 class="page-title">{{ this.getTranslate(getCategoryName()) }}</h1>
-      <div>{{ this.productsCount() }} {{ this.getTranslateWithCount('product', this.productsCount()) }}</div>
+      <h1 class="page-title">{{ this.$localization.getTranslate(getCategoryName()) }}</h1>
+      <div>{{ this.productsCount() }} {{ this.$localization.getTranslateWithCount('product', this.productsCount()) }}</div>
     </div>
     <div class="category__body">
       <aside class="sidebar filter-list">
@@ -26,13 +26,13 @@
           </div> 
         </ExpansionPanel>
         <div class="filter-list__footer">
-          <v-btn type="contained" @click="filterProductsHandler">{{ this.getTranslate('filterBtn') }}</v-btn>
-          <v-btn type="outlined" @click="resetFilter">{{ this.getTranslate('filterResetBtn') }}</v-btn>
+          <v-btn type="contained" @click="filterProductsHandler">{{ this.$localization.getTranslate('filterBtn') }}</v-btn>
+          <v-btn type="outlined" @click="resetFilter">{{ this.$localization.getTranslate('filterResetBtn') }}</v-btn>
         </div>
       </aside>
       <div class="listing-controls">
         <v-btn @click="setSortValue('-price', '+price')" type="text" class="sort-btn">
-          <span>{{ this.getTranslateWithStatus('price', 'by') }}</span>
+          <span>{{ this.$localization.getTranslateWithStatus('price', 'by') }}</span>
           <span v-if="sortValue.includes('price')" class="sort-btn__arrow" :class="{ down: sortValue === '+price' }">
             <icon-base iconName="arrow" width="9" height="6">
               <icon-arrow />  
@@ -40,7 +40,7 @@
           </span>
         </v-btn>
         <v-btn @click="setSortValue('-rating', '+rating')" type="text" class="sort-btn">
-          <span>{{ this.getTranslateWithStatus('rating', 'by') }}</span>
+          <span>{{ this.$localization.getTranslateWithStatus('rating', 'by') }}</span>
           <span v-if="sortValue.includes('rating')" class="sort-btn__arrow" :class="{ down: sortValue === '+rating' }">
             <icon-base iconName="arrow" width="9" height="6">
               <icon-arrow />  
@@ -271,6 +271,7 @@ export default class Category extends Mappers {
                         'sidebar products';
   grid-template-columns: 325px 1fr;
   grid-template-rows: 85px;
+  margin-top: 1rem;
   background: #fff;
 }
 

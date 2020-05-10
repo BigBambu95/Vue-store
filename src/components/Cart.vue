@@ -1,13 +1,13 @@
 <template>
   <div class="cart">
     <header class="cart__header">
-      <h1>{{ this.getTranslate('cart') }}</h1>
+      <h1>{{ this.$localization.getTranslate('cart') }}</h1>
       <v-btn @click="back" type="text">
-        {{ this.getTranslate('backToShopping') }}
+        {{ this.$localization.getTranslate('backToShopping') }}
       </v-btn>
     </header>
     <div v-if="this.$store.state.cart.products < 1" class="cart__body cart--empty">
-      {{ this.getTranslate('emptyCart') }}
+      {{ this.$localization.getTranslate('emptyCart') }}
     </div>
     <div v-else class="cart__body">
       <div class="product" v-for="product in this.$store.state.cart.products" :key="product._id">
@@ -27,9 +27,9 @@
         <div class="product__price">{{ product.sum.toLocaleString('ru') }} &#8381;</div>
       </div>
       <footer class="cart__footer">
-        {{ this.getTranslate('total' )}} 
+        {{ this.$localization.getTranslate('total' )}} 
         {{ this.$store.getters.productCount.toString() }} 
-        {{ this.getTranslateWithCount('product', this.$store.getters.productCount) }} 
+        {{ this.$localization.getTranslateWithCount('product', this.$store.getters.productCount) }} 
         <span class="total">{{ this.$store.getters.total }} &#8381;</span>
       </footer>
     </div>

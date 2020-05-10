@@ -29,7 +29,7 @@
             @click="addToCartHandler" 
             :disabled="isActiveBtn()"
           >
-            {{ this.getTranslateWithStatus('addToCartBtn', isActiveBtn() ? 'active' : 'default') }}
+            {{ this.$localization.getTranslateWithStatus('addToCartBtn', isActiveBtn() ? 'active' : 'default') }}
           </v-btn>
         </div>
       </div>
@@ -95,7 +95,6 @@ export default class Product extends Mapper {
 
 <style scoped>
 .product {
-  margin-top: 2em;
   background: #fff;
 }
 

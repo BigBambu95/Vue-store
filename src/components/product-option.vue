@@ -1,6 +1,6 @@
 <template>
   <div class="option">
-    <span class="option__label">{{ this.getTranslate(label) }}</span>
+    <span class="option__label">{{ this.$localization.getTranslate(label) }}</span>
     <span class="option__value">{{ value }}</span>
   </div>
 </template>

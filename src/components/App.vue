@@ -19,10 +19,9 @@ import Footer from './Footer.vue';
   name: 'App',
   components: {
     Header,
-    Footer
+    Footer,
   }
 })
-
 export default class App extends Vue {}
 </script>
 
@@ -34,6 +33,8 @@ export default class App extends Vue {}
   --small: 13px;
   --main-color: #6c5ce7;
   --main-color-hover: #fdcb6e;
+  --gray-color: #999;
+  --dark-gray-color: #666;
   --bold-font: 700;
   --regular-font: 400;
 }
@@ -79,6 +80,10 @@ input {
   max-width: 1440px;
   width: 100%;
   margin: auto;
+}
+
+.page-title {
+  margin: 0;
 }
 
 @media screen and (max-width: 1480px) {

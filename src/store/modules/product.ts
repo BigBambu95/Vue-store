@@ -23,7 +23,9 @@ class ProductGetters extends Getters<ProductState> {
   }
 
   get price(): string {
-    return this.state.data.price.toLocaleString('ru');
+    if(this.state.data.price) {
+      return this.state.data.price.toLocaleString('ru');
+    }
   }
 }
 

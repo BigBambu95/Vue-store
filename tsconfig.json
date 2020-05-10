@@ -5,7 +5,7 @@
     // это обеспечивает более строгий вывод для свойств данных в `this`
     "strict": false,
     // при использовании webpack 2+ или rollup, добавить поддержку tree-shaking:
-    "module": "es2015",
+    "module": "es2020",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "resolveJsonModule": true,

@@ -1,13 +1,13 @@
 <template>
   <router-link 
     class="category-link"
-    :to="{ name: 'category', params: { category: category.url, title: category.name } }"
+    :to="{ name: 'category', params: { category: category.url } }"
   >
     <div class="category-link__picture">
       <img :src="category.picture" />
     </div>
     <div class="category-link__title">
-      {{ this.getTranslate(category.url) }}
+      {{ this.$localization.getTranslate(category.url) }}
     </div>
   </router-link>
 </template>
