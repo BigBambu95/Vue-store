@@ -1,5 +1,5 @@
 <template>
-  <div class="category">
+  <div class="catalog">
     <router-view></router-view> 
   </div>
 </template>
@@ -8,10 +8,10 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component({
-  name: 'Category'
+  name: 'Catalog'
 })
 
-export default class Category extends Vue {}
+export default class Catalog extends Vue {}
 </script>
 
 <style scoped>

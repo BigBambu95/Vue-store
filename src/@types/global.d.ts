@@ -6,6 +6,7 @@ declare module '*.vue' {
 interface ProductTypes {
   _id?: number;
   name?: string;
+  url?: string;
   picture?: string;
   detailPicture?: string;
   price?: number;
@@ -22,7 +23,7 @@ interface ProductTypes {
 }
 
 interface CategoryTypes {
-  id?: number;
+  _id?: number;
   name?: string;
   url?: string | undefined;
   picture?: string;

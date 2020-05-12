@@ -30,6 +30,7 @@ interface StateTypes {
   products: Array<ProductTypes>;
   filteredProducts: Array<ProductTypes>;
   categories: Array<object>;
+  currentCategoryId: number;
   filter: FilterTypes;
   loading: boolean;
   error: object;
@@ -39,6 +40,7 @@ class CatalogState implements StateTypes {
   products: Array<ProductTypes> = [];
   filteredProducts: Array<ProductTypes> = [];
   categories: Array<object> = [];
+  currentCategoryId: number = null;
   filter: FilterTypes = {
     minPrice: '',
     maxPrice: '',
@@ -59,6 +61,10 @@ class CatalogGetters extends Getters<CatalogState> {
 
   get categories(): Array<object> {
     return this.state.categories;
+  }
+
+  get currentCategory(): CategoryTypes {
+    return this.state.categories.find((item: CategoryTypes) => item._id === this.state.currentCategoryId);
   }
 
   get productsCount(): number {

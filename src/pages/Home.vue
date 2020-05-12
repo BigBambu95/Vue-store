@@ -1,6 +1,5 @@
 <template>
-  <div class="category">
-    <router-view></router-view> 
+  <div class="home">
   </div>
 </template>
 
@@ -8,10 +7,10 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component({
-  name: 'Category'
+  name: 'Home'
 })
 
-export default class Category extends Vue {}
+export default class Home extends Vue {}
 </script>
 
 <style scoped>

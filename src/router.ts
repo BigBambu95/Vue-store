@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-const Catalog = () => import('./components/Catalog.vue');
+const CatalogPage = () => import('./pages/Catalog.vue');
+const CategoryList = () => import('./components/category-list.vue');
+const CategoryPage = () => import('./pages/Category.vue');
 const Category = () => import('./components/Category.vue');
 const Product = () => import('./components/Product.vue');
 const Cart = () => import('./components/Cart.vue');
@@ -12,33 +14,62 @@ const routes = [
   {
     name: 'catalog',
     path: '/catalog',
-    component: Catalog,
+    component: CatalogPage,
     meta: {
-      breadcrumb: 'catalog'
-    }
-  },
-  {
-    name: 'category',
-    path: '/catalog/:category',
-    component: Category,
-    meta: {
-      breadcrumb: '/catalog/:category'
-    }
-  },
-  {
-    name: 'product',
-    path: '/catalog/:category/:id',
-    component: Product,
-    meta: {
-      breadcrumb: ''
-    }
+      bcLinkText: 'catalog',
+      bcLinkTo: 'catalog',
+      isBreadcrumbs: true
+    },
+    children: [
+      {
+        name: 'categories',
+        path: '/',
+        component: CategoryList
+      },
+      {
+        name: 'category',
+        path: '/catalog/:category',
+        component: CategoryPage,
+        meta: {
+          bcLinkText: function() {
+            return this.$route.params.category;
+          },
+          bcLinkTo: function() {
+            return this.$route.name;
+          },
+          isBreadcrumbs: true
+        },
+        children: [
+          {
+            name: 'product-list',
+            path: '/',
+            component: Category
+          },
+          {
+            name: 'product',
+            path: '/catalog/:category/:product',
+            component: Product,
+            meta: {
+              bcLinkText: function() {
+                return this.$route.params.product;
+              },
+              bcLinkTo: function() {
+                return this.$route.name;
+              },
+              isBreadcrumbs: true
+            }
+          },
+        ]
+      },
+
+    ]
   },
   {
     name: 'cart',
     path: '/cart',
     component: Cart,
     meta: {
-      breadcrumb: 'cart'
+      isBreadcrumbs: false
     }
   }
 ];

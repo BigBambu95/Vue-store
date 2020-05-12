@@ -3,6 +3,7 @@
     <Header />
     <main class="content">
       <div class="container">
+        <breadcrumbs />
         <router-view></router-view>
       </div>
     </main>
@@ -14,14 +15,17 @@
 import { Component, Prop, Vue } from 'Vue-property-decorator';
 import Header from './Header.vue';
 import Footer from './Footer.vue';
+import Breadcrumbs from './breadcrumbs.vue';
 
 @Component({
   name: 'App',
   components: {
     Header,
     Footer,
+    Breadcrumbs
   }
 })
+
 export default class App extends Vue {}
 </script>
 

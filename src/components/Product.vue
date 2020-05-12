@@ -72,7 +72,7 @@ export default class Product extends Mapper {
       .then(() => {
         this.getProduct({
             category: this.$route.params.category,
-            id: this.$route.params.id
+            product: this.$route.params.product
         });
       })
       .catch(err => console.error(err));

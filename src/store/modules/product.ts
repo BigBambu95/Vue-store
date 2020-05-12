@@ -18,6 +18,14 @@ class ProductState implements StateTypes {
 }
 
 class ProductGetters extends Getters<ProductState> {
+  get product(): ProductTypes {
+    return this.state.data;
+  }
+
+  get productName(): string {
+    return this.state.data.name;
+  }
+
   get detailPicture(): string {
     return this.state.data.detailPicture;
   }
@@ -47,12 +55,12 @@ class ProductMutations extends Mutations<ProductState> {
 }
 
 class ProductActions extends Actions<ProductState, ProductGetters, ProductMutations, ProductActions> {
-  GET_PRODUCT(payload: { category: string, id: string }) {
+  GET_PRODUCT(payload: { category: string, product: string }) {
     this.commit('GET_PRODUCT_REQUEST');
     vueStoreService
-      .getProduct(payload.category, payload.id)
+      .getProduct(payload.category, payload.product)
       .then((product: object) => {
-        this.commit('GET_PRODUCT_SUCCESS', product);
+        this.commit('GET_PRODUCT_SUCCESS', product[0] || product);
       })
       .catch((err: object) => {
         this.commit('GET_PRODUCT_FAILURE', err);

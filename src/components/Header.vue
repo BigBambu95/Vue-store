@@ -5,7 +5,7 @@
       <div class="nav-bar">
         <router-link 
           class="link" 
-          :to="{ name: 'catalog' }"
+          :to="{ name: 'categories' }"
         >
           {{ this.$localization.getTranslate('catalog') }}
         </router-link>

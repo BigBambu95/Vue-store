@@ -19,9 +19,9 @@ export default class VueStoreService {
     return res.json();
   }
 
-  async getProduct(category: string, id: string) {
+  async getProduct(category: string, id?: string, url?: string) {
     try {
-      const res = await fetch(`${this._url}/products/${category}/${id}`);
+      const res = await fetch(`${this._url}/products/${category}/${id || url}`);
       return res.json();
     } catch(err) {
       return err;

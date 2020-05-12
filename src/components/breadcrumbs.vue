@@ -1,14 +1,14 @@
 <template>
-  <div class="breadcrumbs">
+  <div class="breadcrumbs" v-if="breadcrumbs.length > 0">
     <router-link 
-      v-for="link in links" 
-      :key="link"
-      :to="{ name: link, params: { category: link } }"
       class="breadcrumbs__link active"
+      v-for="(crumb, idx) in breadcrumbs" 
+      :key="idx"
+      :to="{ path: getPath(crumb) }"
+      :tag="idx != $breadcrumbs.length - 1 ? 'a' : 'span'"
     >
-      {{ $localization.getTranslate(link) }}
-    </router-link >
-    <span class="breadcrumbs__link">{{ $localization.getTranslate(currentPageTitle) }}</span>
+      {{ $localization.getTranslate(getBcLinkText(crumb.meta.bcLinkText)) }}
+    </router-link>
   </div>
 </template>
 
@@ -17,20 +17,28 @@ import { Vue, Prop, Component } from 'vue-property-decorator';
 
 @Component({
   name: "breadcrumbs",
-  methods: {
-
-  }
 })
 export default class Breadcrumbs extends Vue {
 
-  get links() {
-    return this.$route.path.split('/').slice(1, -1);
+  //methods 
+  getPath(crumb: { path: string }) {
+    let { path } = crumb;
+
+    for(let [key, value] of Object.entries(this.$route.params)) {
+      path = path.replace(`:${key}`, value);
+    }
+
+    return path;
   }
 
-  get currentPageTitle() {
-    return this.$route.path.split('/').slice(-1);
+  getBcLinkText(bc) {
+    return typeof bc === 'function' ? bc.call(this, this.$route.params) : bc;
   }
 
+  // Computed
+  get breadcrumbs() {
+    return this['$breadcrumbs'].filter(bc => bc.meta.isBreadcrumbs);
+  }
 }
 </script>
 
@@ -42,17 +50,20 @@ export default class Breadcrumbs extends Vue {
 .breadcrumbs__link {
   position: relative;
   margin-right: 1.5rem;
-  color: var(--gray-color);
   font-size: var(--small);
   text-transform: capitalize;
   text-decoration: none;
 }
 
-.breadcrumbs__link.active {
+span.breadcrumbs__link {
+  color: var(--gray-color);
+}
+
+a.breadcrumbs__link {
   color: var(--dark-gray-color);
 }
 
-.breadcrumbs__link.active:hover {
+a.breadcrumbs__link:hover {
   color: #000;
 }
 
